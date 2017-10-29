@@ -1,0 +1,17 @@
+[package]
+name = "dust-lpc13xx"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+
+[profile.dev]
+lto = true
+
+[profile.release]
+lto = true
+
+[features]
+lpc1343 = ["lpc13xx"]
+
+lpc13xx = []
+[dependencies]
+volatile-register = "0.2.0"

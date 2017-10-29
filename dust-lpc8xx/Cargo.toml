@@ -1,0 +1,25 @@
+[package]
+name = "dust-lpc8xx"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+
+[profile.dev]
+lto = true
+
+[profile.release]
+lto = true
+
+[features]
+lpc810 = ["lpc81x"]
+lpc812 = ["lpc81x"]
+lpc824 = ["lpc82x"]
+lpc845 = ["lpc84x"]
+
+lpc81x = []
+lpc82x = []
+lpc83x = []
+lpc84x = []
+
+[dependencies]
+dust-runtime = { path = "../dust-runtime", version = "0.1.0" }
+volatile-register = "0.2.0"

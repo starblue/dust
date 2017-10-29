@@ -1,0 +1,6 @@
+[package]
+name = "dust-runtime"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+
+[dependencies]

@@ -1,0 +1,17 @@
+[package]
+name = "dust-cortex-m"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+
+[features]
+cortex-m0 = ["thumbv6m"]
+cortex-m0plus = ["thumbv6m"]
+cortex-m3 = ["thumbv7m"]
+cortex-m4 = ["thumbv7m"]
+cortex-m7 = ["thumbv7m"]
+
+thumbv6m = []
+thumbv7m = ["thumbv6m"]
+
+[dependencies]
+volatile-register = "0.2.0"
