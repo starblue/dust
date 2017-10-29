@@ -14,7 +14,7 @@ clean:
 	find . \( -name \*~ -o -name \*.rs.bk \) -exec rm {} \;
 
 build-%:
-	xargo build --release --target thumbv6m-none-eabi --features "$*"
+	RUSTFLAGS="-C link-arg=-Tlayout_$*.ld" xargo build --release --target thumbv6m-none-eabi --features "$*"
 
 %.hex: build-%
 	arm-none-eabi-objcopy -O ihex target/thumbv6m-none-eabi/release/dust-test-uart "$*".hex

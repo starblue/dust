@@ -4,7 +4,6 @@ target = "thumbv6m-none-eabi"
 [target.thumbv6m-none-eabi]
 rustflags = [
   "-C", "link-arg=-nostartfiles",
-  "-C", "link-arg=-Tlayout_lpc812.ld",
 ]
 
 [target.thumbv7m-none-eabi]
