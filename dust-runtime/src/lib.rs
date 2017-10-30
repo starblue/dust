@@ -1,6 +1,5 @@
 #![feature(compiler_builtins_lib)]
 #![feature(lang_items)]
-#![feature(linkage)]
 #![no_std]
 
 extern crate compiler_builtins;
