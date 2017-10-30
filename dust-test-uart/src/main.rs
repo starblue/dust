@@ -89,9 +89,5 @@ pub fn main() {
             gpio.clr_pin(LED);
             delay(d);
         }
-        for _ in 0 .. n {
-            gpio.toggle_pin(LED);
-            delay(2 * d);
-        }
     }
 }
