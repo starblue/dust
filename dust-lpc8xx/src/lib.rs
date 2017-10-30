@@ -1,16 +1,10 @@
 #![feature(const_fn)]
-#![feature(lang_items)]
 #![feature(linkage)]
 #![feature(used)]
 #![no_std]
 
 extern crate volatile_register;
-extern crate dust_runtime;
-
-use dust_runtime::crt0;
-
-#[cfg(not(target_os = "linux"))]
-pub mod cm0plus_vectors;
+extern crate dust_cortex_m;
 
 #[cfg(feature = "lpc81x")]
 pub mod lpc81x_vectors;
@@ -36,8 +30,3 @@ pub const USART1: *mut usart::Usart = 0x4006_8000 as *mut usart::Usart;
 pub const USART2: *mut usart::Usart = 0x4006_C000 as *mut usart::Usart;
 
 pub const GPIO: *mut gpio::Gpio = 0xA000_0000 as *mut gpio::Gpio;
-
-
-unsafe fn reset_handler() {
-    crt0();
-}

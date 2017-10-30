@@ -14,4 +14,5 @@ thumbv6m = []
 thumbv7m = ["thumbv6m"]
 
 [dependencies]
+dust-runtime = { path = "../dust-runtime", version = "0.1.0" }
 volatile-register = "0.2.0"

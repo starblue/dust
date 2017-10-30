@@ -1,24 +1,6 @@
-use reset_handler;
+//! Exception vector table for Cortex-M3 and higher
 
-#[used]
-#[link_section = ".cm3_vectors"]
-pub static VECTORS: [Option<fn()>; 15] = [
-    Some(reset_handler),
-    Some(nmi_handler),
-    Some(hard_fault_handler),
-    Some(memory_fault_handler),
-    Some(bus_fault_handler),
-    Some(usage_fault_handler),
-    None,
-    None,
-    None,
-    None,
-    Some(svcall_handler),
-    None,
-    None,
-    Some(pendsv_handler),
-    Some(systick_handler),
-];
+use reset_handler;
 
 #[linkage = "weak"]
 pub fn nmi_handler() {
@@ -59,3 +41,24 @@ pub fn pendsv_handler() {
 pub fn systick_handler() {
     loop {}
 }
+
+#[used]
+#[link_section = ".cm3_vectors"]
+pub static VECTORS: [Option<unsafe fn()>; 15] = [
+    Some(reset_handler),
+    Some(nmi_handler),
+    Some(hard_fault_handler),
+    Some(memory_fault_handler),
+    Some(bus_fault_handler),
+    Some(usage_fault_handler),
+    None,
+    None,
+    None,
+    None,
+    Some(svcall_handler),
+    None,
+    None,
+    Some(pendsv_handler),
+    Some(systick_handler),
+];
+

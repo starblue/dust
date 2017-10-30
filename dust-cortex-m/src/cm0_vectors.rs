@@ -1,3 +1,5 @@
+//! Exception vector table for Cortex-M0
+
 use reset_handler;
 
 #[linkage = "weak"]
@@ -24,9 +26,8 @@ pub fn pendsv_handler() {
 pub fn systick_handler() {
     loop {}
 }
-
 #[used]
-#[link_section = ".cm0plus_vectors"]
+#[link_section = ".cm0_vectors"]
 pub static VECTORS: [Option<unsafe fn()>; 15] = [
     Some(reset_handler),
     Some(nmi_handler),
@@ -44,3 +45,4 @@ pub static VECTORS: [Option<unsafe fn()>; 15] = [
     Some(pendsv_handler),
     Some(systick_handler),
 ];
+
