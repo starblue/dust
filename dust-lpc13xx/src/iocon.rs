@@ -1,6 +1,5 @@
 use volatile_register::RW;
 
-
 #[repr(C)]
 pub struct Iocon {
     pub iocon: [RW<u32>; 0x0b0 / 4],
@@ -9,7 +8,6 @@ pub struct Iocon {
     pub dcd_loc: RW<u32>,
     pub ri_loc: RW<u32>,
 }
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Pin(usize);
@@ -57,7 +55,6 @@ pub const PIO1_6: Pin = Pin(41);
 pub const PIO1_7: Pin = Pin(42);
 pub const PIO3_3: Pin = Pin(43);
 
-
 pub const IOCON_MODE_INACTIVE: u32 = 0 << 3;
 pub const IOCON_MODE_PULL_DOWN: u32 = 1 << 3;
 pub const IOCON_MODE_PULL_UP: u32 = 2 << 3;
@@ -74,7 +71,6 @@ pub const IOCON_I2CMODE_FAST_MODE_PLUS: u32 = 2 << 8;
 
 pub const IOCON_OD: u32 = 1 << 10;
 
-
 impl Iocon {
     pub unsafe fn write(&self, pin: Pin, v: u32) {
         self.iocon[pin.0].write(v);
@@ -90,7 +86,6 @@ impl Iocon {
         }
     }
 }
-
 
 #[cfg(test)]
 mod test {

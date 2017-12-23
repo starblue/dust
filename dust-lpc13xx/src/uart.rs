@@ -21,7 +21,6 @@ pub struct Uart {
     pub rs485dly: RW<u32>,
 }
 
-
 pub const IER_RBRIE: u32 = 1 << 0;
 pub const IER_THREIE: u32 = 1 << 1;
 pub const IER_RXLIE: u32 = 1 << 2;
@@ -29,12 +28,10 @@ pub const IER_ABEOINTEN: u32 = 1 << 8;
 pub const IER_ABTOINTEN: u32 = 1 << 9;
 pub const IER_RESERVED_WZ: u32 = 0xfffffc70;
 
-
 pub const IIR_INTSTATUS: u32 = 1 << 0;
 pub const IIR_ABEOINT: u32 = 1 << 8;
 pub const IIR_ABTOINT: u32 = 1 << 9;
 pub const IIR_RESERVED_WZ: u32 = 0xfffffc30;
-
 
 pub const FCR_FIFOEN: u32 = 1 << 0;
 
@@ -48,7 +45,6 @@ pub const FCR_RXTL_8: u32 = 2 << 6;
 pub const FCR_RXTL_14: u32 = 3 << 6;
 
 pub const FCR_RESERVED_WZ: u32 = 0xffffff38;
-
 
 pub const LCR_WLS_5: u32 = 0 << 0;
 pub const LCR_WLS_6: u32 = 1 << 0;
@@ -68,7 +64,6 @@ pub const LCR_PS_FORCED_0: u32 = 3 << 4;
 pub const LCR_BC: u32 = 1 << 6;
 
 pub const LCR_DLAB: u32 = 1 << 7;
-
 
 pub const MCR_DTRC: u32 = 1 << 0;
 pub const MCR_RTSC: u32 = 1 << 1;
@@ -143,7 +138,6 @@ impl Uart {
         self.rbr_thr_dll.read() as u8
     }
 }
-
 
 #[cfg(test)]
 mod test {

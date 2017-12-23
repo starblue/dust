@@ -1,5 +1,4 @@
-use volatile_register::{ RO, RW, WO };
-
+use volatile_register::{RO, RW, WO};
 
 #[repr(C)]
 pub struct Gpio {
@@ -14,7 +13,6 @@ pub struct Gpio {
     pub mis: RO<u32>,
     pub ic: WO<u32>,
 }
-
 
 impl Gpio {
     pub fn set_pin_output(&self, pin: usize) {
@@ -38,7 +36,6 @@ impl Gpio {
         }
     }
 }
-
 
 #[cfg(test)]
 mod test {

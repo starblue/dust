@@ -22,7 +22,6 @@ pub struct Nvic {
     pub ipr: [RW<u32>; 124],
 }
 
-
 impl Nvic {
     pub fn enable_irq(&mut self, n: usize) {
         unsafe {

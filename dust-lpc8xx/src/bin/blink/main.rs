@@ -11,14 +11,12 @@ extern crate dust_lpc8xx;
 
 use dust_lpc8xx::GPIO;
 
-
 fn delay(n: usize) {
-    for _ in 0 .. n {
+    for _ in 0..n {
         // Make sure the loop is not optimized away
         unsafe { asm!("" :::: "volatile") }
     }
 }
-
 
 #[cfg(feature = "lpc810")]
 const LED: usize = 1;
@@ -35,13 +33,13 @@ pub fn main() {
     let d = 500000;
     let n = 2;
     loop {
-        for _ in 0 .. n {
+        for _ in 0..n {
             gpio.set_pin(LED);
             delay(d);
             gpio.clr_pin(LED);
             delay(d);
         }
-        for _ in 0 .. n {
+        for _ in 0..n {
             gpio.toggle_pin(LED);
             delay(2 * d);
         }

@@ -4,13 +4,11 @@
 
 extern crate compiler_builtins;
 
-
 #[cfg(not(test))]
 #[lang = "panic_fmt"]
 fn rust_begin_panic(_msg: ::core::fmt::Arguments, _file: &'static str, _line: u32) -> ! {
     loop {}
 }
-
 
 extern "C" {
     static __data_load__: u32;
@@ -25,7 +23,6 @@ extern "C" {
     fn main();
 }
 
-
 unsafe fn init_data(load: *const u32, start: *mut u32, end: *const u32) {
     let mut s = load;
     let mut d = start;
@@ -37,7 +34,6 @@ unsafe fn init_data(load: *const u32, start: *mut u32, end: *const u32) {
     }
 }
 
-
 unsafe fn init_bss(start: *mut u32, end: *const u32) {
     let mut d = start as *mut u32;
     let end = end as *mut u32;
@@ -46,7 +42,6 @@ unsafe fn init_bss(start: *mut u32, end: *const u32) {
         d = d.offset(1);
     }
 }
-
 
 pub unsafe fn crt0() -> ! {
     init_data(&__data_load__, &mut __data_start__, &__data_end__);

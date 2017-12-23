@@ -11,14 +11,12 @@ extern crate dust_lpc11xx;
 
 use dust_lpc11xx::GPIO0;
 
-
 fn delay(n: usize) {
-    for _ in 0 .. n {
+    for _ in 0..n {
         // Make sure the loop is not optimized away
         unsafe { asm!("" :::: "volatile") }
     }
 }
-
 
 const LED: usize = 9;
 
@@ -30,13 +28,13 @@ pub fn main() {
     let d = 500000;
     let n = 2;
     loop {
-        for _ in 0 .. n {
+        for _ in 0..n {
             gpio.set_pin(LED);
             delay(d);
             gpio.clr_pin(LED);
             delay(d);
         }
-        for _ in 0 .. n / 2 {
+        for _ in 0..n / 2 {
             gpio.set_pin(LED);
             delay(2 * d);
             gpio.clr_pin(LED);

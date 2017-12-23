@@ -1,6 +1,5 @@
 use volatile_register::RW;
 
-
 #[cfg(feature = "lpc81x")]
 pub const PINS: usize = 18;
 #[cfg(any(feature = "lpc82x", feature = "lpc83x"))]

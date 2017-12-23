@@ -36,7 +36,7 @@ pub struct Syscon {
     pub usbclksel: RW<u32>,
     pub usbclkuen: RW<u32>,
     pub usbclkdiv: RW<u32>,
-    reserved_0x0cc: [u8; 0x0d0 - 0x0cc],    
+    reserved_0x0cc: [u8; 0x0d0 - 0x0cc],
     pub wdtclksel: RW<u32>,
     pub wdtclkuen: RW<u32>,
     pub wdtclkdiv: RW<u32>,
@@ -67,11 +67,9 @@ pub struct Syscon {
     pub device_id: RO<u32>,
 }
 
-
 pub const SYSMEMREMAP_BOOT_ROM: u32 = 0 << 0;
 pub const SYSMEMREMAP_RAM: u32 = 1 << 0;
 pub const SYSMEMREMAP_FLASH: u32 = 2 << 0;
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Reset(u32);
@@ -81,8 +79,6 @@ pub const RESET_I2C: Reset = Reset(1);
 pub const RESET_SSP1: Reset = Reset(2);
 
 pub const PRESETCTRL_RESERVED: u32 = 0xfffffff8;
-
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Clock(u32);
@@ -108,7 +104,6 @@ pub const CLOCK_SSP1: Clock = Clock(18);
 
 pub const SYSAHBCLKCTRL_RESERVED: u32 = 0xfffa0000;
 
-
 impl Syscon {
     pub unsafe fn assert_periph_reset(&self, reset: Reset) {
         self.presetctrl
@@ -132,7 +127,6 @@ impl Syscon {
             .modify(|w| !(1 << clock.0) & (w & !SYSAHBCLKCTRL_RESERVED));
     }
 }
-
 
 #[cfg(test)]
 mod test {

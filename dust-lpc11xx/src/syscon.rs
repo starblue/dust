@@ -55,11 +55,9 @@ pub struct Syscon {
     pub device_id: RO<u32>,
 }
 
-
 pub const SYSMEMREMAP_BOOT_ROM: u32 = 0 << 0;
 pub const SYSMEMREMAP_RAM: u32 = 1 << 0;
 pub const SYSMEMREMAP_FLASH: u32 = 2 << 0;
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Reset(u32);
@@ -70,8 +68,6 @@ pub const RESET_SSP1: Reset = Reset(2);
 pub const RESET_CAN: Reset = Reset(3);
 
 pub const PRESETCTRL_RESERVED: u32 = 0xfffffff0;
-
-
 
 #[derive(Clone, Copy, Debug)]
 pub struct Clock(u32);
@@ -97,7 +93,6 @@ pub const CLOCK_SSP1: Clock = Clock(18);
 
 pub const SYSAHBCLKCTRL_RESERVED: u32 = 0xfff84000;
 
-
 impl Syscon {
     pub unsafe fn assert_periph_reset(&self, reset: Reset) {
         self.presetctrl
@@ -121,7 +116,6 @@ impl Syscon {
             .modify(|w| !(1 << clock.0) & (w & !SYSAHBCLKCTRL_RESERVED));
     }
 }
-
 
 #[cfg(test)]
 mod test {

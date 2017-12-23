@@ -35,7 +35,6 @@ pub static IRQ_VECTORS: [Option<fn()>; 32] = [
     Some(gpio0_irq_handler),
 ];
 
-
 #[linkage = "weak"]
 pub fn pio0_0_irq_handler() {
     loop {}

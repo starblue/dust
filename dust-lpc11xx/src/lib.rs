@@ -3,8 +3,8 @@
 #![feature(used)]
 #![no_std]
 
-extern crate volatile_register;
 extern crate dust_cortex_m;
+extern crate volatile_register;
 
 #[cfg(feature = "lpc11xx")]
 pub mod lpc11xx_vectors;

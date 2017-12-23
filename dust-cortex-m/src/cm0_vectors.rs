@@ -45,4 +45,3 @@ pub static VECTORS: [Option<unsafe fn()>; 15] = [
     Some(pendsv_handler),
     Some(systick_handler),
 ];
-

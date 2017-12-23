@@ -143,22 +143,14 @@ impl Swm {
     pub unsafe fn disable_movable_function(&mut self, f: MovableFunction) {
         self.set_movable_function_pin_internal(f, 0xff);
     }
-    pub unsafe fn set_movable_function_pin(
-        &self,
-        f: MovableFunction,
-        pin: usize,
-    ) {
+    pub unsafe fn set_movable_function_pin(&self, f: MovableFunction, pin: usize) {
         // TODO use assertion
         if pin >= PINS {
             panic!();
         }
         self.set_movable_function_pin_internal(f, pin);
     }
-    unsafe fn set_movable_function_pin_internal(
-        &self,
-        f: MovableFunction,
-        pin: usize,
-    ) {
+    unsafe fn set_movable_function_pin_internal(&self, f: MovableFunction, pin: usize) {
         let f = f.value();
         // TODO use assertion
         if f >= MOVABLE_FUNCTIONS {
@@ -181,7 +173,6 @@ fn word_bit(f: FixedFunction) -> (usize, usize) {
     let bit = v % 32;
     (word, bit)
 }
-
 
 #[cfg(test)]
 mod test {

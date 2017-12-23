@@ -14,14 +14,12 @@ use dust_lpc11xx::iocon::PIO1_7;
 use dust_lpc11xx::syscon::CLOCK_IOCON;
 use dust_lpc11xx::syscon::CLOCK_UART;
 
-
 fn delay(n: usize) {
-    for _ in 0 .. n {
+    for _ in 0..n {
         // Make sure the loop is not optimized away
         unsafe { asm!("" :::: "volatile") }
     }
 }
-
 
 const LED: usize = 9;
 
@@ -48,7 +46,6 @@ pub fn main() {
 
     uart.init();
 
-
     gpio.set_pin_output(LED);
     let d = 500000;
     let n = 2;
@@ -56,13 +53,13 @@ pub fn main() {
         for c in b"Hello world!\r\n" {
             uart.tx(*c);
         }
-        for _ in 0 .. n {
+        for _ in 0..n {
             gpio.set_pin(LED);
             delay(d);
             gpio.clr_pin(LED);
             delay(d);
         }
-        for _ in 0 .. n / 2 {
+        for _ in 0..n / 2 {
             gpio.set_pin(LED);
             delay(2 * d);
             gpio.clr_pin(LED);

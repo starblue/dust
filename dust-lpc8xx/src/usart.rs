@@ -16,7 +16,6 @@ pub struct Usart {
     pub addr: RW<u32>,
 }
 
-
 pub const CFG_ENABLE: u32 = 1 << 0;
 
 pub const CFG_DATALEN_7: u32 = 0 << 2;
@@ -41,7 +40,6 @@ pub const CFG_SYNCMST: u32 = 1 << 14;
 
 pub const CFG_LOOP: u32 = 1 << 15;
 
-
 #[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
 pub const CFG_OETA: u32 = 1 << 18;
 
@@ -62,7 +60,6 @@ pub const CFG_RXPOL_INVERTED: u32 = 1 << 22;
 #[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
 pub const CFG_TXPOL_INVERTED: u32 = 1 << 23;
 
-
 pub const CTL_TXBRKEN: u32 = 1 << 1;
 pub const CTL_ADDRDET: u32 = 1 << 2;
 pub const CTL_TXDIS: u32 = 1 << 6;
@@ -73,13 +70,10 @@ pub const CTL_CLRCONRX: u32 = 1 << 9;
 pub const CTL_AUTOBAUD: u32 = 1 << 16;
 
 #[cfg(feature = "lpc81x")]
-pub const CTL_RESERVED: u32 = !(CTL_TXBRKEN | CTL_ADDRDET | CTL_TXDIS | CTL_CC |
-                                CTL_CLRCONRX);
+pub const CTL_RESERVED: u32 = !(CTL_TXBRKEN | CTL_ADDRDET | CTL_TXDIS | CTL_CC | CTL_CLRCONRX);
 #[cfg(not(feature = "lpc81x"))]
-pub const CTL_RESERVED: u32 = !(CTL_TXBRKEN | CTL_ADDRDET | CTL_TXDIS | CTL_CC |
-                                CTL_CLRCONRX |
-                                CTL_AUTOBAUD);
-
+pub const CTL_RESERVED: u32 =
+    !(CTL_TXBRKEN | CTL_ADDRDET | CTL_TXDIS | CTL_CC | CTL_CLRCONRX | CTL_AUTOBAUD);
 
 pub const STAT_RXRDY: u32 = 1 << 0;
 pub const STAT_RXIDLE: u32 = 1 << 1;
@@ -96,7 +90,6 @@ pub const STAT_FRAMERRINT: u32 = 1 << 13;
 pub const STAT_PARITYERRINT: u32 = 1 << 14;
 pub const STAT_RXNOISEINT: u32 = 1 << 15;
 pub const STAT_ABERR: u32 = 1 << 16;
-
 
 impl Usart {
     pub fn init(&self) {
@@ -124,7 +117,6 @@ impl Usart {
         self.rxdat.read() as u8
     }
 }
-
 
 #[cfg(test)]
 mod test {

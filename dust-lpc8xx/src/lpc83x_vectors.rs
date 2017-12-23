@@ -143,7 +143,6 @@ pub fn pinint7_irq_handler() {
     loop {}
 }
 
-
 #[used]
 #[link_section = ".irq_vectors"]
 pub static IRQ_VECTORS: [Option<fn()>; 32] = [

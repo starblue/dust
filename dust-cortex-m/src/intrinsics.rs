@@ -22,7 +22,6 @@ pub fn rbit(a: u32) -> u32 {
     result
 }
 
-
 // # A4.6.3 Unprivileged loads and stores
 // TODO
 
@@ -42,7 +41,6 @@ pub fn rbit(a: u32) -> u32 {
 
 // Debug hint
 // DBG
-
 
 /// Data Memory Barrier (DMB) instruction
 #[inline(always)]
@@ -92,7 +90,6 @@ pub fn nop() {
     }
 }
 
-
 // Preload Data
 // PLD (immediate)
 // PLD (literal)
@@ -113,7 +110,6 @@ pub fn sev() {
              : "volatile");
     }
 }
-
 
 // Supervisor Call (SVC) instruction
 // TODO unclear if useful out of context
@@ -155,7 +151,6 @@ pub fn wfi() {
 //     }
 // }
 
-
 /// # A4.9 Exception-generating instructions
 
 /// Breakpoint (BKPT) instruction
@@ -181,7 +176,6 @@ pub fn udf() {
              : "volatile");
     }
 }
-
 
 /// # Other instructions not in chapter A4
 

@@ -22,7 +22,6 @@ pub const CALIB_TENMS_MASK: u32 = 0x00ffffff;
 pub const CALIB_SKEW: u32 = 0 << 30;
 pub const CALIB_NOREF: u32 = 0 << 31;
 
-
 impl SysTick {
     pub fn init(&mut self, reload_value: u32) {
         unsafe {
@@ -49,7 +48,6 @@ impl SysTick {
         self.csr.modify(|w| w & !CSR_TICKINT);
     }
 }
-
 
 #[cfg(test)]
 mod test {
