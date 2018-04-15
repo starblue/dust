@@ -2,6 +2,7 @@
 name = "dust-lpc11xx"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Drivers for LPC11xx hardware."
 
 [profile.dev]
 lto = true

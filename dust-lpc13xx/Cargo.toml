@@ -2,6 +2,7 @@
 name = "dust-lpc13xx"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
+license = "MIT OR Apache-2.0"
 
 [profile.dev]
 lto = true

@@ -2,6 +2,7 @@
 name = "dust-cortex-m"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
+license = "MIT OR Apache-2.0"
 
 [features]
 cortex-m0 = ["thumbv6m"]
