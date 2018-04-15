@@ -2,5 +2,7 @@
 name = "dust-runtime"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Rust language runtime."
+license = "MIT OR Apache-2.0"
 
 [dependencies]
