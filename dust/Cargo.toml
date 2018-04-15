@@ -1,0 +1,8 @@
+[package]
+name = "dust"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Hardware abstraction interfaces."
+license = "MIT OR Apache-2.0"
+
+[dependencies]
