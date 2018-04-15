@@ -1,38 +1,75 @@
+/// SYSCON peripheral unit for LPC83x
+///
+/// Checked against UM11021 2016-10-05.
 use volatile_register::{RO, RW};
 
 #[repr(C)]
 pub struct Syscon {
     pub sysmemremap: RW<u32>,
-    pub presetctrl: RW<u32>,
+    pub presetctrl: [RW<u32>; 1],
     pub syspllctrl: RW<u32>,
     pub syspllstat: RO<u32>,
-    reserved_0x010: [u8; 0x020 - 0x010],
+    reserved_0x010: u32,
+    reserved_0x014: u32,
+    reserved_0x018: u32,
+    reserved_0x01c: u32,
     pub sysoscctrl: RW<u32>,
     pub wdtoscctrl: RW<u32>,
     pub ircctrl: RW<u32>,
-    reserved_0x02c: [u8; 0x030 - 0x02c],
+    reserved_0x02c: u32,
     pub sysrststat: RW<u32>,
-    reserved_0x034: [u8; 0x040 - 0x034],
+    reserved_0x034: u32,
+    reserved_0x038: u32,
+    reserved_0x03c: u32,
     pub syspllclksel: RW<u32>,
     pub syspllclkuen: RW<u32>,
-    reserved_0x048: [u8; 0x070 - 0x048],
+    reserved_0x048: u32,
+    reserved_0x04c: u32,
+    reserved_0x050: u32,
+    reserved_0x054: u32,
+    reserved_0x058: u32,
+    reserved_0x05c: u32,
+    reserved_0x060: u32,
+    reserved_0x064: u32,
+    reserved_0x068: u32,
+    reserved_0x06c: u32,
     pub mainclksel: RW<u32>,
     pub mainclkuen: RW<u32>,
     pub sysahbclkdiv: RW<u32>,
-    reserved_0x07c: [u8; 0x080 - 0x07c],
-    pub sysahbclkctrl: RW<u32>,
-    reserved_0x084: [u8; 0x094 - 0x084],
+    reserved_0x07c: u32,
+    pub sysahbclkctrl: [RW<u32>; 1],
+    reserved_0x084: u32,
+    reserved_0x088: u32,
+    reserved_0x08c: u32,
+    reserved_0x090: u32,
     pub uartclkdiv: RW<u32>,
-    reserved_0x098: [u8; 0x0e0 - 0x098],
+    reserved_0x098: u32,
+    reserved_0x09c: u32,
+    reserved_0x0a0: u32,
+    reserved_0x0a4: u32,
+    reserved_0x0a8: u32,
+    reserved_0x0ac: u32,
+    reserved_0x0b0: u32,
+    reserved_0x0b4: u32,
+    reserved_0x0b8: u32,
+    reserved_0x0bc: u32,
+    reserved_0x0c0: u32,
+    reserved_0x0c4: u32,
+    reserved_0x0c8: u32,
+    reserved_0x0cc: u32,
+    reserved_0x0d0: u32,
+    reserved_0x0d4: u32,
+    reserved_0x0d8: u32,
+    reserved_0x0dc: u32,
     pub clkoutsel: RW<u32>,
     pub clkoutuen: RW<u32>,
     pub clkoutdiv: RW<u32>,
-    reserved_0x0ec: [u8; 0x0f0 - 0x0ec],
+    reserved_0x0ec: u32,
     pub uartfrgdiv: RW<u32>,
     pub uartfrgmult: RW<u32>,
-    reserved_0x0f8: [u8; 0x0fc - 0x0f8],
+    reserved_0x0f8: u32,
     pub exttracecmd: RW<u32>,
-    pub pioporcap0: RO<u32>,
+    pub pioporcap: [RO<u32>; 1],
     reserved_0x104: [u8; 0x0134 - 0x104],
     pub ioconclkdiv6: RW<u32>,
     pub ioconclkdiv5: RW<u32>,
@@ -64,75 +101,57 @@ pub const SYSMEMREMAP_RAM: u32 = 1 << 0;
 pub const SYSMEMREMAP_FLASH: u32 = 2 << 0;
 
 #[derive(Clone, Copy, Debug)]
-pub struct Reset(u32);
+pub struct Reset(usize, u32);
 
-pub const RESET_SPI0: Reset = Reset(0);
-pub const RESET_SPI1: Reset = Reset(1);
-pub const RESET_UARTFBRG: Reset = Reset(2);
-pub const RESET_USART0: Reset = Reset(3);
-pub const RESET_USART1: Reset = Reset(4);
-pub const RESET_USART2: Reset = Reset(5);
-pub const RESET_I2C0: Reset = Reset(6);
-pub const RESET_MRT: Reset = Reset(7);
-pub const RESET_SCT: Reset = Reset(8);
-pub const RESET_WKT: Reset = Reset(9);
-pub const RESET_GPIO: Reset = Reset(10);
-pub const RESET_FLASH: Reset = Reset(11);
-pub const RESET_ACMP: Reset = Reset(12);
-pub const RESET_I2C1: Reset = Reset(14);
-pub const RESET_I2C2: Reset = Reset(15);
-pub const RESET_I2C3: Reset = Reset(16);
-pub const RESET_ADC: Reset = Reset(24);
-pub const RESET_DMA: Reset = Reset(29);
+// Reset bits in PRESETCTRL
+pub const RESET_SPI0: Reset = Reset(0, 0);
+pub const RESET_SPI1: Reset = Reset(0, 1);
+pub const RESET_UARTFRG: Reset = Reset(0, 2);
+pub const RESET_USART0: Reset = Reset(0, 3);
+pub const RESET_I2C0: Reset = Reset(0, 6);
+pub const RESET_MRT: Reset = Reset(0, 7);
+pub const RESET_SCT: Reset = Reset(0, 8);
+pub const RESET_WKT: Reset = Reset(0, 9);
+pub const RESET_GPIO: Reset = Reset(0, 10);
+pub const RESET_FLASH: Reset = Reset(0, 11);
+pub const RESET_ADC: Reset = Reset(0, 24);
+pub const RESET_DMA: Reset = Reset(0, 29);
 
-#[cfg(feature = "lpc81x")]
-pub const PRESETCTRL_RESERVED: u32 = 0xffffe000;
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
-pub const PRESETCTRL_RESERVED: u32 = 0xfffe2000;
+pub const PRESETCTRL_RESERVED: [u32; 1] = [0xdefff030];
 
 #[derive(Clone, Copy, Debug)]
-pub struct Clock(u32);
+pub struct Clock(usize, u32);
 
-pub const CLOCK_SYS: Clock = Clock(0);
-pub const CLOCK_ROM: Clock = Clock(1);
-pub const CLOCK_RAM0_1: Clock = Clock(2);
-pub const CLOCK_FLASHREG: Clock = Clock(3);
-pub const CLOCK_FLASH: Clock = Clock(4);
-pub const CLOCK_I2C0: Clock = Clock(5);
-pub const CLOCK_GPIO: Clock = Clock(6);
-pub const CLOCK_SWM: Clock = Clock(7);
-pub const CLOCK_SCT: Clock = Clock(8);
-pub const CLOCK_WKT: Clock = Clock(9);
-pub const CLOCK_MRT: Clock = Clock(10);
-pub const CLOCK_SPI0: Clock = Clock(11);
-pub const CLOCK_SPI1: Clock = Clock(12);
-pub const CLOCK_CRC: Clock = Clock(13);
-pub const CLOCK_UART0: Clock = Clock(14);
-pub const CLOCK_UART1: Clock = Clock(15);
-pub const CLOCK_UART2: Clock = Clock(16);
-pub const CLOCK_WWDT: Clock = Clock(17);
-pub const CLOCK_IOCON: Clock = Clock(18);
-pub const CLOCK_ACMP: Clock = Clock(19);
-pub const CLOCK_I2C1: Clock = Clock(21);
-pub const CLOCK_I2C2: Clock = Clock(22);
-pub const CLOCK_I2C3: Clock = Clock(23);
-pub const CLOCK_ADC: Clock = Clock(24);
-pub const CLOCK_MTB: Clock = Clock(26);
-pub const CLOCK_DMA: Clock = Clock(29);
+// Clock bits in SYSAHBCLKCTRL
+pub const CLOCK_SYS: Clock = Clock(0, 0);
+pub const CLOCK_ROM: Clock = Clock(0, 1);
+pub const CLOCK_RAM: Clock = Clock(0, 2);
+pub const CLOCK_FLASHREG: Clock = Clock(0, 3);
+pub const CLOCK_FLASH: Clock = Clock(0, 4);
+pub const CLOCK_I2C0: Clock = Clock(0, 5);
+pub const CLOCK_GPIO: Clock = Clock(0, 6);
+pub const CLOCK_SWM: Clock = Clock(0, 7);
+pub const CLOCK_SCT: Clock = Clock(0, 8);
+pub const CLOCK_WKT: Clock = Clock(0, 9);
+pub const CLOCK_MRT: Clock = Clock(0, 10);
+pub const CLOCK_SPI0: Clock = Clock(0, 11);
+pub const CLOCK_SPI1: Clock = Clock(0, 12);
+pub const CLOCK_CRC: Clock = Clock(0, 13);
+pub const CLOCK_UART0: Clock = Clock(0, 14);
+pub const CLOCK_WWDT: Clock = Clock(0, 17);
+pub const CLOCK_IOCON: Clock = Clock(0, 18);
+pub const CLOCK_ADC: Clock = Clock(0, 24);
+pub const CLOCK_MTB: Clock = Clock(0, 26);
+pub const CLOCK_DMA: Clock = Clock(0, 29);
 
-#[cfg(feature = "lpc81x")]
-pub const SYSAHBCLKCTRL_RESERVED: u32 = 0xfff00000;
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
-pub const SYSAHBCLKCTRL_RESERVED: u32 = 0xda100000;
+pub const SYSAHBCLKCTRL_RESERVED: [u32; 1] = [0xdaf98000];
 
 impl Syscon {
     pub unsafe fn assert_periph_reset(&self, reset: Reset) {
-        self.presetctrl
-            .modify(|w| !(1 << reset.0) & (w & !PRESETCTRL_RESERVED));
+        self.presetctrl[reset.0].modify(|w| !(1 << reset.1) & (w & !PRESETCTRL_RESERVED[reset.0]));
     }
     pub unsafe fn deassert_periph_reset(&self, reset: Reset) {
-        self.presetctrl
-            .modify(|w| (1 << reset.0) | (w & !PRESETCTRL_RESERVED));
+        self.presetctrl[reset.0].modify(|w| (1 << reset.1) | (w & !PRESETCTRL_RESERVED[reset.0]));
     }
     pub unsafe fn periph_reset(&self, reset: Reset) {
         self.assert_periph_reset(reset);
@@ -140,12 +159,12 @@ impl Syscon {
     }
 
     pub unsafe fn enable_clock(&self, clock: Clock) {
-        self.sysahbclkctrl
-            .modify(|w| (1 << clock.0) | (w & !SYSAHBCLKCTRL_RESERVED));
+        self.sysahbclkctrl[clock.0]
+            .modify(|w| (1 << clock.1) | (w & !SYSAHBCLKCTRL_RESERVED[clock.0]));
     }
     pub unsafe fn disable_clock(&self, clock: Clock) {
-        self.sysahbclkctrl
-            .modify(|w| !(1 << clock.0) & (w & !SYSAHBCLKCTRL_RESERVED));
+        self.sysahbclkctrl[clock.0]
+            .modify(|w| !(1 << clock.1) & (w & !SYSAHBCLKCTRL_RESERVED[clock.0]));
     }
 }
 
@@ -176,7 +195,7 @@ mod test {
         assert_eq!(address(&syscon.uartfrgdiv), 0x4004_80f0);
         assert_eq!(address(&syscon.uartfrgmult), 0x4004_80f4);
         assert_eq!(address(&syscon.exttracecmd), 0x4004_80fc);
-        assert_eq!(address(&syscon.pioporcap0), 0x4004_8100);
+        assert_eq!(address(&syscon.pioporcap), 0x4004_8100);
         assert_eq!(address(&syscon.ioconclkdiv6), 0x4004_8134);
         assert_eq!(address(&syscon.ioconclkdiv5), 0x4004_8138);
         assert_eq!(address(&syscon.ioconclkdiv4), 0x4004_813c);

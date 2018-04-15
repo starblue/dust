@@ -3,9 +3,15 @@
 #![feature(used)]
 #![no_std]
 
+#[macro_use]
+extern crate dust;
 extern crate dust_cortex_m;
 extern crate volatile_register;
 
+#[cfg(feature = "lpc802")]
+pub mod lpc802_vectors;
+#[cfg(feature = "lpc804")]
+pub mod lpc804_vectors;
 #[cfg(feature = "lpc81x")]
 pub mod lpc81x_vectors;
 #[cfg(feature = "lpc82x")]
@@ -15,10 +21,10 @@ pub mod lpc83x_vectors;
 #[cfg(feature = "lpc84x")]
 pub mod lpc84x_vectors;
 
-pub mod syscon;
-pub mod swm;
 pub mod gpio;
+pub mod swm;
 pub mod usart;
+pub mod syscon;
 
 pub const SWM: *mut swm::Swm = 0x4000_C000 as *mut swm::Swm;
 

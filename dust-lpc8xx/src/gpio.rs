@@ -1,5 +1,12 @@
+use dust::gpio::pin::mode;
+use dust::gpio::pin::{InputPin, OutputPin};
+use dust::gpio::port;
 use volatile_register::RW;
 
+#[cfg(feature = "lpc802")]
+pub const PINS: usize = 18;
+#[cfg(feature = "lpc804")]
+pub const PINS: usize = 31;
 #[cfg(feature = "lpc81x")]
 pub const PINS: usize = 18;
 #[cfg(any(feature = "lpc82x", feature = "lpc83x"))]
@@ -59,6 +66,104 @@ pub struct Gpio {
     pub dirnot: [RW<u32>; PORTS],
 }
 
+pub struct Port<'a> {
+    gpio: &'a Gpio,
+    index: usize,
+}
+
+impl<'a> Port<'a> {
+    pub unsafe fn new(gpio: &mut Gpio, index: usize) -> Port {
+        Port { gpio, index }
+    }
+}
+
+impl<'a> port::GetValue<u32> for Port<'a> {
+    fn get_value(&mut self) -> u32 {
+        self.gpio.pin[self.index].read()
+    }
+}
+
+impl<'a> port::SetValue<u32> for Port<'a> {
+    fn set_value(&mut self, value: u32) {
+        unsafe { self.gpio.pin[self.index].write(value) }
+    }
+    fn modify_value<F>(&mut self, f: F)
+    where
+        F: FnMut(u32) -> u32,
+    {
+        unsafe {
+            self.gpio.pin[self.index].modify(f);
+        }
+    }
+}
+
+impl<'a> port::Set<u32> for Port<'a> {
+    fn set_bits(&mut self, bits: u32) {
+        unsafe {
+            self.gpio.set[self.index].write(bits);
+        }
+    }
+}
+
+impl<'a> port::Clr<u32> for Port<'a> {
+    fn clr_bits(&mut self, bits: u32) {
+        unsafe {
+            self.gpio.clr[self.index].write(bits);
+        }
+    }
+}
+
+impl<'a> port::Toggle<u32> for Port<'a> {
+    fn toggle_bits(&mut self, bits: u32) {
+        unsafe {
+            self.gpio.not[self.index].write(bits);
+        }
+    }
+}
+
+impl<'a> port::DirSetValue<u32> for Port<'a> {
+    fn dir_set_value(&mut self, dir: u32) {
+        unsafe {
+            self.gpio.dir[self.index].write(dir);
+        }
+    }
+    fn dir_modify_value<F>(&mut self, f: F)
+    where
+        F: FnMut(u32) -> u32,
+    {
+        unsafe {
+            self.gpio.dir[self.index].modify(f);
+        }
+    }
+}
+
+#[cfg(not(feature = "lpc81x"))]
+impl<'a> port::DirSet<u32> for Port<'a> {
+    fn dir_set(&mut self, dir: u32) {
+        unsafe {
+            self.gpio.dirset[self.index].write(dir);
+        }
+    }
+}
+
+#[cfg(not(feature = "lpc81x"))]
+impl<'a> port::DirClr<u32> for Port<'a> {
+    fn dir_clr(&mut self, dir: u32) {
+        unsafe {
+            self.gpio.dirclr[self.index].write(dir);
+        }
+    }
+}
+
+#[cfg(not(feature = "lpc81x"))]
+impl<'a> port::DirToggle<u32> for Port<'a> {
+    fn dir_toggle(&mut self, dir: u32) {
+        unsafe {
+            self.gpio.dirnot[self.index].write(dir);
+        }
+    }
+}
+
 #[cfg(feature = "lpc81x")]
 impl Gpio {
     pub fn set_pin_output(&self, pin: usize) {
@@ -75,7 +180,7 @@ impl Gpio {
     }
 }
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 impl Gpio {
     pub fn set_pin_output(&self, pin: usize) {
         let (port, bit) = port_bit(pin);
@@ -92,6 +197,9 @@ impl Gpio {
 }
 
 impl Gpio {
+    pub fn get_pin_value(&self, pin: usize) -> bool {
+        self.b[pin].read() != 0
+    }
     pub fn set_pin(&self, pin: usize) {
         let (port, bit) = port_bit(pin);
         unsafe {
@@ -121,6 +229,38 @@ fn port_bit(pin: usize) -> (usize, usize) {
     (port, bit)
 }
 
+pub struct Pin<'a, M> {
+    mode: M,
+    gpio: &'a Gpio,
+    index: usize,
+}
+
+impl<'a, M> Pin<'a, M> {
+    pub fn new(mode: M, gpio: &mut Gpio, index: usize) -> Pin<M> {
+        Pin { mode, gpio, index }
+    }
+}
+
+impl<'a, M> InputPin for Pin<'a, M>
+where
+    M: mode::Input,
+{
+    fn get_value(&mut self) -> bool {
+        self.gpio.get_pin_value(self.index)
+    }
+}
+
+impl<'a, M> OutputPin for Pin<'a, M>
+where
+    M: mode::Output,
+{
+    fn set(&mut self) {
+        self.gpio.set_pin(self.index);
+    }
+    fn clr(&mut self) {
+        self.gpio.clr_pin(self.index);
+    }
+}
 
 #[cfg(test)]
 mod test {
