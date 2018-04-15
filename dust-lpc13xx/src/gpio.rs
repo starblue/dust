@@ -1,3 +1,4 @@
+use dust::gpio::port;
 use volatile_register::{RO, RW, WO};
 
 #[repr(C)]
@@ -12,6 +13,70 @@ pub struct Gpio {
     pub ris: RO<u32>,
     pub mis: RO<u32>,
     pub ic: WO<u32>,
+}
+
+pub struct Port<'a> {
+    gpio: &'a Gpio,
+}
+
+impl<'a> Port<'a> {
+    pub unsafe fn new(gpio: &mut Gpio) -> Port {
+        Port { gpio }
+    }
+}
+
+impl<'a> port::GetValue<u32> for Port<'a> {
+    fn get_value(&mut self) -> u32 {
+        self.gpio.data[0xfff].read()
+    }
+}
+
+impl<'a> port::SetValue<u32> for Port<'a> {
+    fn set_value(&mut self, value: u32) {
+        unsafe { self.gpio.data[0xfff].write(value) }
+    }
+    fn modify_value<F>(&mut self, f: F)
+    where
+        F: FnMut(u32) -> u32,
+    {
+        unsafe {
+            self.gpio.data[0xfff].modify(f);
+        }
+    }
+}
+
+impl<'a> port::Set<u32> for Port<'a> {
+    fn set_bits(&mut self, bits: u32) {
+        let i = (bits & 0xfff) as usize;
+        unsafe {
+            self.gpio.data[i].write(!0);
+        }
+    }
+}
+
+impl<'a> port::Clr<u32> for Port<'a> {
+    fn clr_bits(&mut self, bits: u32) {
+        let i = (bits & 0xfff) as usize;
+        unsafe {
+            self.gpio.data[i].write(0);
+        }
+    }
+}
+
+impl<'a> port::DirSetValue<u32> for Port<'a> {
+    fn dir_set_value(&mut self, dir: u32) {
+        unsafe {
+            self.gpio.dir.write(dir);
+        }
+    }
+    fn dir_modify_value<F>(&mut self, f: F)
+    where
+        F: FnMut(u32) -> u32,
+    {
+        unsafe {
+            self.gpio.dir.modify(f);
+        }
+    }
 }
 
 impl Gpio {
