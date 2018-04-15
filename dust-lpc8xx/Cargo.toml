@@ -13,8 +13,13 @@ lto = true
 
 [features]
 lpc810 = ["lpc81x"]
+lpc811 = ["lpc81x"]
 lpc812 = ["lpc81x"]
+lpc822 = ["lpc82x"]
 lpc824 = ["lpc82x"]
+lpc832 = ["lpc83x"]
+lpc834 = ["lpc83x"]
+lpc844 = ["lpc84x"]
 lpc845 = ["lpc84x"]
 
 lpc802 = []
