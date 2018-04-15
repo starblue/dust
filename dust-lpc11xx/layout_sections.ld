@@ -6,7 +6,7 @@ SECTIONS
   .text :
   {
     LONG(__StackTop);
-    KEEP(*(.cm0plus_vectors));
+    KEEP(*(.exception_vectors));
     KEEP(*(.irq_vectors));
 
     *(.text*)
