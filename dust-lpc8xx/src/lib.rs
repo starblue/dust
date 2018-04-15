@@ -22,6 +22,8 @@ pub mod lpc83x_vectors;
 pub mod lpc84x_vectors;
 
 pub mod gpio;
+#[cfg(feature = "lpc804")]
+pub mod plu;
 pub mod swm;
 pub mod usart;
 pub mod syscon;
@@ -35,3 +37,6 @@ pub const USART1: *mut usart::Usart = 0x4006_8000 as *mut usart::Usart;
 pub const USART2: *mut usart::Usart = 0x4006_C000 as *mut usart::Usart;
 
 pub const GPIO: *mut gpio::Gpio = 0xA000_0000 as *mut gpio::Gpio;
+
+#[cfg(feature = "lpc804")]
+pub const PLU: *mut plu::Plu = 0x4002_8000 as *mut plu::Plu;
