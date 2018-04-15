@@ -25,8 +25,8 @@ pub mod gpio;
 #[cfg(feature = "lpc804")]
 pub mod plu;
 pub mod swm;
-pub mod usart;
 pub mod syscon;
+pub mod usart;
 
 pub const SWM: *mut swm::Swm = 0x4000_C000 as *mut swm::Swm;
 

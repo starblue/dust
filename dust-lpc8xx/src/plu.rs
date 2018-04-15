@@ -10,7 +10,7 @@ pub const LUT_INPUTS: usize = 5;
 pub struct Plu {
     pub lut_inp_mux: [[RW<u32>; 8]; 64],
     pub lut_truth: [RW<u32>; 64],
-    pub outputs:  RO<u32>,
+    pub outputs: RO<u32>,
     reserved_0x0904: [u8; 0xc00 - 0x904],
     pub output_mux: [RW<u32>; 8],
 }

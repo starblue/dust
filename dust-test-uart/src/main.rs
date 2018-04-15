@@ -8,14 +8,14 @@ extern crate dust_lpc8xx;
 #[cfg(feature = "lpc11xx")]
 extern crate dust_lpc11xx;
 
+use dust_lpc8xx::swm::{U0_RXD, U0_TXD};
+use dust_lpc8xx::syscon::CLOCK_UART0;
+use dust_lpc8xx::syscon::RESET_USART0;
+use dust_lpc8xx::syscon::CLOCK_SWM;
+use dust_lpc8xx::USART0;
 use dust_lpc8xx::GPIO;
 use dust_lpc8xx::SWM;
 use dust_lpc8xx::SYSCON;
-use dust_lpc8xx::USART0;
-use dust_lpc8xx::swm::{U0_RXD, U0_TXD};
-use dust_lpc8xx::syscon::CLOCK_SWM;
-use dust_lpc8xx::syscon::CLOCK_UART0;
-use dust_lpc8xx::syscon::RESET_USART0;
 
 fn delay(n: usize) {
     for _ in 0..n {

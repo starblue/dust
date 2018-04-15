@@ -4,15 +4,15 @@
 
 extern crate dust_lpc11xx;
 
+use dust_lpc11xx::iocon::PIO1_6;
+use dust_lpc11xx::iocon::PIO1_7;
+use dust_lpc11xx::iocon::IOCON_MODE_PULL_UP;
+use dust_lpc11xx::syscon::CLOCK_IOCON;
+use dust_lpc11xx::syscon::CLOCK_UART;
 use dust_lpc11xx::GPIO0;
 use dust_lpc11xx::IOCON;
 use dust_lpc11xx::SYSCON;
 use dust_lpc11xx::UART;
-use dust_lpc11xx::iocon::IOCON_MODE_PULL_UP;
-use dust_lpc11xx::iocon::PIO1_6;
-use dust_lpc11xx::iocon::PIO1_7;
-use dust_lpc11xx::syscon::CLOCK_IOCON;
-use dust_lpc11xx::syscon::CLOCK_UART;
 
 fn delay(n: usize) {
     for _ in 0..n {

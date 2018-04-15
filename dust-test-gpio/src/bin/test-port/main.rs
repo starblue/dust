@@ -22,19 +22,19 @@ use dust::gpio::port::DirSetValue;
 use dust::gpio::port::{Clr, Set};
 
 #[cfg(feature = "lpc8xx")]
-use dust_lpc8xx::GPIO;
-#[cfg(feature = "lpc8xx")]
 use dust_lpc8xx::gpio;
+#[cfg(feature = "lpc8xx")]
+use dust_lpc8xx::GPIO;
 
-#[cfg(feature = "lpc11xx")]
-use dust_lpc11xx::GPIO;
 #[cfg(feature = "lpc11xx")]
 use dust_lpc11xx::gpio;
+#[cfg(feature = "lpc11xx")]
+use dust_lpc11xx::GPIO;
 
 #[cfg(feature = "lpc13xx")]
-use dust_lpc13xx::GPIO;
-#[cfg(feature = "lpc13xx")]
 use dust_lpc13xx::gpio;
+#[cfg(feature = "lpc13xx")]
+use dust_lpc13xx::GPIO;
 
 fn delay(n: usize) {
     for _ in 0..n {
@@ -81,7 +81,6 @@ fn enable_gpio_clock() {
 fn enable_gpio_clock() {
     // GPIO clock is already enabled after reset
 }
-
 
 #[cfg(feature = "lpc81x")]
 fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {

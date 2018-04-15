@@ -28,7 +28,6 @@ default_handler!(gpio2_irq_handler);
 default_handler!(gpio1_irq_handler);
 default_handler!(gpio0_irq_handler);
 
-
 #[used]
 #[link_section = ".irq_vectors"]
 pub static IRQ_VECTORS: [Option<fn()>; 32] = [

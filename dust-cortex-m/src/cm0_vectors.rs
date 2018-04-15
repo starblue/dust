@@ -8,7 +8,6 @@ default_handler!(svcall_handler);
 default_handler!(pendsv_handler);
 default_handler!(systick_handler);
 
-
 #[used]
 #[link_section = ".exception_vectors"]
 pub static VECTORS: [Option<unsafe fn()>; 15] = [
