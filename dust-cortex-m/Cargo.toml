@@ -2,6 +2,7 @@
 name = "dust-cortex-m"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Drivers for Cortex-M hardware."
 license = "MIT OR Apache-2.0"
 
 [features]
@@ -12,8 +13,9 @@ cortex-m4 = ["thumbv7m"]
 cortex-m7 = ["thumbv7m"]
 
 thumbv6m = []
-thumbv7m = ["thumbv6m"]
+thumbv7m = []
 
 [dependencies]
+dust = { path = "../dust", version = "0.1.0" }
 dust-runtime = { path = "../dust-runtime", version = "0.1.0" }
 volatile-register = "0.2.0"

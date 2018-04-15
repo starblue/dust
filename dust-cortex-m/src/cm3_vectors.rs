@@ -2,48 +2,18 @@
 
 use reset_handler;
 
-#[linkage = "weak"]
-pub fn nmi_handler() {
-    loop {}
-}
+default_handler!(nmi_handler);
+default_handler!(hard_fault_handler);
+default_handler!(memory_fault_handler);
+default_handler!(bus_fault_handler);
+default_handler!(usage_fault_handler);
+default_handler!(svcall_handler);
+default_handler!(pendsv_handler);
+default_handler!(systick_handler);
 
-#[linkage = "weak"]
-pub fn hard_fault_handler() {
-    loop {}
-}
-
-#[linkage = "weak"]
-pub fn memory_fault_handler() {
-    loop {}
-}
-
-#[linkage = "weak"]
-pub fn bus_fault_handler() {
-    loop {}
-}
-
-#[linkage = "weak"]
-pub fn usage_fault_handler() {
-    loop {}
-}
-
-#[linkage = "weak"]
-pub fn svcall_handler() {
-    loop {}
-}
-
-#[linkage = "weak"]
-pub fn pendsv_handler() {
-    loop {}
-}
-
-#[linkage = "weak"]
-pub fn systick_handler() {
-    loop {}
-}
 
 #[used]
-#[link_section = ".cm3_vectors"]
+#[link_section = ".exception_vectors"]
 pub static VECTORS: [Option<unsafe fn()>; 15] = [
     Some(reset_handler),
     Some(nmi_handler),

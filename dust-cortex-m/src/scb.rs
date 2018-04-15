@@ -1,7 +1,31 @@
 use volatile_register::{RO, RW};
 
+/// System Control Block
+#[cfg(feature = "thumbv6m")]
 #[repr(C)]
-/// Nested Vectored Interrupt Controller
+pub struct Scb {
+    /// CPUID base register
+    cpuid: RO<u32>,
+    /// Interrupt Control and State Register
+    icsr: RW<u32>,
+    /// Vector Table Offset Register
+    vtor: RW<u32>,
+    /// Application Interrupt and Reset Control Register
+    aircr: RW<u32>,
+    /// System Control Register
+    scr: RW<u32>,
+    /// Configuration and Control Register
+    ccr: RW<u32>,
+    /// System Handler Priority Register
+    shpr: [RW<u32>; 3],
+    /// System Handler Control and State Register
+    shcsr: RW<u32>,
+    reserved_d28: [u32; 2],
+    /// Debug Fault Status Register
+    dfsr: RW<u32>,
+}
+#[cfg(feature = "thumbv7m")]
+#[repr(C)]
 pub struct Scb {
     /// CPUID base register
     cpuid: RO<u32>,
@@ -68,6 +92,7 @@ pub struct Scb {
 
 #[cfg(test)]
 mod test {
+    #[cfg(any(feature = "thumbv6m", feature = "thumbv7m"))]
     #[test]
     fn test_scb() {
         let scb = unsafe { &mut *::SCB };
@@ -80,9 +105,16 @@ mod test {
         assert_eq!(address(&scb.ccr), 0xE000_ED14);
         assert_eq!(address(&scb.shpr), 0xE000_ED18);
         assert_eq!(address(&scb.shcsr), 0xE000_ED24);
+        assert_eq!(address(&scb.dfsr), 0xE000_ED30);
+    }
+
+    #[cfg(feature = "thumbv7m")]
+    #[test]
+    fn test_scb_v7m() {
+        let scb = unsafe { &mut *::SCB };
+
         assert_eq!(address(&scb.cfsr), 0xE000_ED28);
         assert_eq!(address(&scb.hfsr), 0xE000_ED2C);
-        assert_eq!(address(&scb.dfsr), 0xE000_ED30);
         assert_eq!(address(&scb.mmfar), 0xE000_ED34);
         assert_eq!(address(&scb.bfar), 0xE000_ED38);
         assert_eq!(address(&scb.afsr), 0xE000_ED3C);
