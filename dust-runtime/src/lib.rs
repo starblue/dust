@@ -1,7 +1,7 @@
 #![feature(lang_items)]
 #![no_std]
 
-#[cfg(not(test))]
+#[cfg(not(any(unix, windows)))]
 #[lang = "panic_fmt"]
 fn rust_begin_panic(_msg: ::core::fmt::Arguments, _file: &'static str, _line: u32) -> ! {
     loop {}
