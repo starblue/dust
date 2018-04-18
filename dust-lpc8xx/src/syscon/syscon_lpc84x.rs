@@ -1,6 +1,7 @@
-/// SYSCON peripheral unit for LPC84x
-///
-/// Checked against UM11029 2017-12-08.
+//! SYSCON peripheral unit for LPC84x
+//!
+//! Checked against UM11029 2017-12-08.
+
 use volatile_register::{RO, RW};
 
 #[repr(C)]

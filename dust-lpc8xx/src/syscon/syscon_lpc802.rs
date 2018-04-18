@@ -1,6 +1,7 @@
-/// SYSCON peripheral unit for LPC802
-///
-/// Checked against UM11045 2018-03-26.
+//! SYSCON peripheral unit for LPC802
+//!
+//! Checked against UM11045 2018-03-26.
+
 use volatile_register::{RO, RW};
 
 #[repr(C)]
