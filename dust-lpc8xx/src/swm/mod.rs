@@ -128,7 +128,7 @@ impl Swm {
         let shift = 2 * f.index;
         let mask: u32 = 3 << shift;
         let data: u32 = (value as u32) << shift;
-        self.pinassign[f.reg].modify(|w| (w & !mask) | data);
+        self.pinassign_fixed[f.reg].modify(|w| (w & !mask) | data);
     }
 
     pub unsafe fn enable_fixed_function(&mut self, f: FixedFunction) {
