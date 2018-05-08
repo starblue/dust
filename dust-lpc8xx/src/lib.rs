@@ -32,9 +32,30 @@ pub const SWM: *mut swm::Swm = 0x4000_C000 as *mut swm::Swm;
 
 pub const SYSCON: *mut syscon::Syscon = 0x4004_8000 as *mut syscon::Syscon;
 
-pub const USART0: *mut usart::Usart = 0x4006_4000 as *mut usart::Usart;
-pub const USART1: *mut usart::Usart = 0x4006_8000 as *mut usart::Usart;
-pub const USART2: *mut usart::Usart = 0x4006_C000 as *mut usart::Usart;
+#[cfg(any(feature = "lpc802", feature = "lpc804"))]
+pub const USART: [*mut usart::Usart; 2] = [
+    0x4006_4000 as *mut usart::Usart,
+    0x4006_8000 as *mut usart::Usart,
+];
+
+#[cfg(any(feature = "lpc81x", feature = "lpc82x"))]
+pub const USART: [*mut usart::Usart; 3] = [
+    0x4006_4000 as *mut usart::Usart,
+    0x4006_8000 as *mut usart::Usart,
+    0x4006_C000 as *mut usart::Usart,
+];
+
+#[cfg(feature = "lpc83x")]
+pub const USART: [*mut usart::Usart; 1] = [0x4006_4000 as *mut usart::Usart];
+
+#[cfg(feature = "lpc84x")]
+pub const USART: [*mut usart::Usart; 5] = [
+    0x4006_4000 as *mut usart::Usart,
+    0x4006_8000 as *mut usart::Usart,
+    0x4006_C000 as *mut usart::Usart,
+    0x4007_0000 as *mut usart::Usart,
+    0x4007_4000 as *mut usart::Usart,
+];
 
 pub const GPIO: *mut gpio::Gpio = 0xA000_0000 as *mut gpio::Gpio;
 
