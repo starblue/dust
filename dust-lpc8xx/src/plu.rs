@@ -30,20 +30,18 @@ pub enum OutputMux {
 
 impl Plu {
     pub unsafe fn set_lut_input(&mut self, lut: usize, input: usize, mux: LutInputMux) {
-        self.lut_inp_mux[lut][input].write(
-            match mux {
-                LutInputMux::PluInput(n) => n,
-                LutInputMux::LutOutput(n) => n + PLU_INPUTS,
-                LutInputMux::State(n) => n + PLU_INPUTS + LUTS,
-            } as u32);
+        self.lut_inp_mux[lut][input].write(match mux {
+            LutInputMux::PluInput(n) => n,
+            LutInputMux::LutOutput(n) => n + PLU_INPUTS,
+            LutInputMux::State(n) => n + PLU_INPUTS + LUTS,
+        } as u32);
     }
 
     pub unsafe fn set_output(&mut self, output: usize, mux: OutputMux) {
-        self.output_mux[output].write(
-            match mux {
-                OutputMux::LutOutput(n) => n,
-                OutputMux::State(n) => n + LUTS,
-            } as u32);
+        self.output_mux[output].write(match mux {
+            OutputMux::LutOutput(n) => n,
+            OutputMux::State(n) => n + LUTS,
+        } as u32);
     }
 }
 
