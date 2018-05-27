@@ -1,8 +1,8 @@
 [package]
-name = "dust-test-gpio"
+name = "dust-test"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
-description = "Test programs for GPIO."
+description = "Test programs for Dust."
 license = "MIT OR Apache-2.0"
 
 [profile.dev]

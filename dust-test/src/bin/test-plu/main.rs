@@ -23,7 +23,6 @@ use dust_lpc8xx::SYSCON;
 use dust_lpc8xx::swm;
 use dust_lpc8xx::SWM;
 
-use dust_lpc8xx::plu;
 use dust_lpc8xx::plu::LutInputMux;
 use dust_lpc8xx::plu::OutputMux;
 use dust_lpc8xx::PLU;

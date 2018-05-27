@@ -114,13 +114,13 @@ fn get_gpio_port() -> gpio::Port<'static> {
 pub fn main() {
     enable_gpio_clock();
     let mut gpio_port = get_gpio_port();
-    let d = 500000;
+    let d = 1000000;
     let n = 2;
     loop {
         for _ in 0..n {
             let (_, bit_index) = LED;
             gpio_port.set_bits(1 << bit_index);
-            delay(d);
+            delay(2 * d);
             gpio_port.clr_bits(1 << bit_index);
             delay(d);
         }
