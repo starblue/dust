@@ -1,9 +1,11 @@
-#![feature(lang_items)]
+#![feature(panic_implementation)]
 #![no_std]
 
+use core::panic::PanicInfo;
+
 #[cfg(not(any(unix, windows)))]
-#[lang = "panic_fmt"]
-fn rust_begin_panic(_msg: ::core::fmt::Arguments, _file: &'static str, _line: u32) -> ! {
+#[panic_implementation]
+fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
