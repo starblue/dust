@@ -1,14 +1,18 @@
 BINARIES =
 BINARIES += test-port
 BINARIES += test-plu
+BINARIES += test-all-pins
 
 DEVICES =
-DEVICES += lpc802 lpc804 lpc810 lpc812 lpc824 lpc845
+DEVICES += lpc802 lpc804 lpc810 lpc812 lpc822 lpc824 lpc845
 DEVICES += lpc1114
 DEVICES += lpc1343
 
 test-port_DEVICES = $(DEVICES)
+test-uart_DEVICES = $(DEVICES)
+
 test-plu_DEVICES = lpc804
+test-all-pins_DEVICES = lpc802 lpc804 lpc822 lpc824 lpc845
 
 CARGOFLAGS =
 CARGOFLAGS += --color never
@@ -24,6 +28,7 @@ lpc802_TARGET = thumbv6m-none-eabi
 lpc804_TARGET = thumbv6m-none-eabi
 lpc810_TARGET = thumbv6m-none-eabi
 lpc812_TARGET = thumbv6m-none-eabi
+lpc822_TARGET = thumbv6m-none-eabi
 lpc824_TARGET = thumbv6m-none-eabi
 lpc845_TARGET = thumbv6m-none-eabi
 lpc1114_TARGET = thumbv6m-none-eabi

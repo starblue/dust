@@ -47,9 +47,9 @@ fn delay(n: usize) {
 const LED: (usize, usize) = (0, 15);
 #[cfg(feature = "lpc810")]
 const LED: (usize, usize) = (0, 1);
-#[cfg(any(feature = "lpc812", feature = "lpc824"))]
+#[cfg(feature = "lpc812")]
 const LED: (usize, usize) = (0, 15);
-#[cfg(feature = "lpc845")]
+#[cfg(any(feature="lpc82x", feature = "lpc84x"))]
 const LED: (usize, usize) = (0, 0);
 #[cfg(feature = "lpc1114")]
 const LED: (usize, usize) = (0, 9);
@@ -114,7 +114,7 @@ fn get_gpio_port() -> gpio::Port<'static> {
 pub fn main() {
     enable_gpio_clock();
     let mut gpio_port = get_gpio_port();
-    let d = 1000000;
+    let d = 100000;
     let n = 2;
     loop {
         for _ in 0..n {
