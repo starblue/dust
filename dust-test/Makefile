@@ -54,7 +54,7 @@ $(1):: $(1)_$(2).hex
 $(2):: $(1)_$(2).hex
 
 build_$(1)_$(2):
-	RUSTFLAGS="-C link-arg=-Tlayout_$(2).ld $(RUSTFLAGS)" \
+	RUSTFLAGS="-C link-arg=-T$(2).ld $(RUSTFLAGS)" \
 		cargo build $(CARGOFLAGS) --target $($(2)_TARGET) --features "$(2)" --bin $(1)
 
 $(1)_$(2).hex: build_$(1)_$(2)

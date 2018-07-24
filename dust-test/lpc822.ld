@@ -1,8 +1,8 @@
-/* NXP LPC812 */
+/* NXP LPC822 */
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 16K
   RAM (rwx)  : ORIGIN = 0x10000000, LENGTH = 4K
 }
 
-INCLUDE layout_sections.ld
+INCLUDE sections.ld

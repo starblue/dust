@@ -5,4 +5,4 @@ MEMORY
   RAM (rwx)  : ORIGIN = 0x10000000, LENGTH = 1K
 }
 
-INCLUDE layout_sections.ld
+INCLUDE sections.ld
