@@ -1,3 +1,4 @@
+#![feature(rust_2018_preview)]
 #![feature(asm)]
 #![feature(const_fn)]
 #![feature(lang_items)]
