@@ -14,6 +14,11 @@ test-uart_DEVICES = $(DEVICES)
 test-plu_DEVICES = lpc804
 test-all-pins_DEVICES = lpc802 lpc804 lpc822 lpc824 lpc845
 
+
+LD_DIR = ldscripts
+OUTPUT_DIR = output
+
+
 CARGOFLAGS =
 CARGOFLAGS += --color never
 CARGOFLAGS += --release
@@ -22,7 +27,7 @@ CARGOFLAGS += --release
 EXECUTABLES = $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$B_$D))
 
 BUILDS = $(addprefix build_, $(EXECUTABLES))
-HEX_FILES = $(addsuffix .hex, $(EXECUTABLES))
+HEX_FILES = $(addprefix $(OUTPUT_DIR)/, $(addsuffix .hex, $(EXECUTABLES)))
 
 lpc802_TARGET = thumbv6m-none-eabi
 lpc804_TARGET = thumbv6m-none-eabi
@@ -39,28 +44,31 @@ RUSTFLAGS =
 #RUSTFLAGS += -C linker=lld
 #RUSTFLAGS += -Z linker-flavor=ld.lld
 RUSTFLAGS += -C link-arg=-nostartfiles
+RUSTFLAGS += -C link-arg=-L"$(LD_DIR)"
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
 
 
 all: $(HEX_FILES)
 
-clean:
-	cargo clean
-	rm -f $(HEX_FILES)
-	find . \( -name \*~ -o -name \*.rs.bk \) -exec rm {} \;
-
 define b_d_rules =
-$(1):: $(1)_$(2).hex
-$(2):: $(1)_$(2).hex
+$(1):: $(OUTPUT_DIR)/$(1)_$(2).hex
+$(2):: $(OUTPUT_DIR)/$(1)_$(2).hex
 
 build_$(1)_$(2):
-	RUSTFLAGS="-C link-arg=-T$(2).ld $(RUSTFLAGS)" \
+	RUSTFLAGS="-C link-arg=-T$(LD_DIR)/$(2).ld $(RUSTFLAGS)" \
 		cargo build $(CARGOFLAGS) --target $($(2)_TARGET) --features "$(2)" --bin $(1)
 
-$(1)_$(2).hex: build_$(1)_$(2)
-	arm-none-eabi-objcopy -O ihex target/$($(2)_TARGET)/release/$(1) "$(2)_$(1)".hex
+$(OUTPUT_DIR)/$(1)_$(2).hex: build_$(1)_$(2)
+	arm-none-eabi-objcopy -O ihex target/$($(2)_TARGET)/release/$(1) "$(OUTPUT_DIR)/$(2)_$(1)".hex
 endef
 $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$(eval $(call b_d_rules,$B,$D))))
 
-flash_%: %.hex
-	lpc21isp -control "$*".hex /dev/ttyUSB0 115200 12000
+flash_%: $(OUTPUT_DIR)/%.hex
+	lpc21isp -control "$(OUTPUT_DIR)/$*".hex /dev/ttyUSB0 115200 12000
+
+clean:
+	cargo clean
+	find . \( -name \*~ -o -name \*.rs.bk \) -exec rm {} \;
+
+realclean: clean
+	rm -f $(HEX_FILES)
