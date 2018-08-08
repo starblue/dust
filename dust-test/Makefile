@@ -4,6 +4,7 @@ BINARIES += test-plu
 BINARIES += test-all-pins
 
 DEVICES =
+DEVICES += atsamd09c13 atsamd09d14
 DEVICES += lpc802 lpc804 lpc810 lpc812 lpc822 lpc824 lpc845
 DEVICES += lpc1114
 DEVICES += lpc1343
@@ -29,6 +30,8 @@ EXECUTABLES = $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$B_$D))
 BUILDS = $(addprefix build_, $(EXECUTABLES))
 HEX_FILES = $(addprefix $(OUTPUT_DIR)/, $(addsuffix .hex, $(EXECUTABLES)))
 
+atsamd09c13_TARGET = thumbv6m-none-eabi
+atsamd09d14_TARGET = thumbv6m-none-eabi
 lpc802_TARGET = thumbv6m-none-eabi
 lpc804_TARGET = thumbv6m-none-eabi
 lpc810_TARGET = thumbv6m-none-eabi

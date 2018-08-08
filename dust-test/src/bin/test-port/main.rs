@@ -16,11 +16,16 @@ extern crate dust_lpc13xx;
 #[cfg(feature = "lpc8xx")]
 extern crate dust_lpc8xx;
 
-#[cfg(all(feature = "lpc8xx", not(feature = "lpc81x")))]
+#[cfg(any(feature = "atsamd09", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
 use dust::gpio::port::DirSet;
 #[cfg(any(feature = "lpc81x", feature = "lpc11xx", feature = "lpc13xx"))]
 use dust::gpio::port::DirSetValue;
 use dust::gpio::port::{Clr, Set};
+
+#[cfg(feature = "atsamd09")]
+use dust_atsamd09::port as gpio;
+#[cfg(feature = "atsamd09")]
+use dust_atsamd09::PORT as GPIO;
 
 #[cfg(feature = "lpc8xx")]
 use dust_lpc8xx::gpio;
@@ -44,6 +49,8 @@ fn delay(n: usize) {
     }
 }
 
+#[cfg(feature = "atsamd09")]
+const LED: (usize, usize) = (0, 24);
 #[cfg(any(feature = "lpc802", feature = "lpc804"))]
 const LED: (usize, usize) = (0, 15);
 #[cfg(feature = "lpc810")]
@@ -83,14 +90,23 @@ fn enable_gpio_clock() {
     // GPIO clock is already enabled after reset
 }
 
-#[cfg(feature = "lpc81x")]
+#[cfg(any(feature = "lpc81x", feature = "lpc11xx", feature = "lpc13xx"))]
 fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
     port.dir_modify_value(|w| w | (1 << bit_index));
 }
 
-#[cfg(all(feature = "lpc8xx", not(feature = "lpc81x")))]
+#[cfg(any(feature = "atsamd09", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
 fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
     port.dir_set(1 << bit_index);
+}
+
+#[cfg(feature = "atsamd09")]
+fn get_gpio_port() -> gpio::Port<'static> {
+    let gpio = unsafe { &mut *GPIO };
+    let (port_index, bit_index) = LED;
+    let mut port = unsafe { gpio::Port::new(gpio) };
+    init_gpio_port(&mut port, bit_index);
+    port
 }
 
 #[cfg(feature = "lpc8xx")]
@@ -107,7 +123,7 @@ fn get_gpio_port() -> gpio::Port<'static> {
     let (port_index, bit_index) = LED;
     let gpio = unsafe { &mut *GPIO[port_index] };
     let mut port = unsafe { gpio::Port::new(gpio) };
-    port.dir_modify_value(|w| w | (1 << bit_index));
+    init_gpio_port(&mut port, bit_index);
     port
 }
 

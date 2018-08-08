@@ -1,0 +1,21 @@
+[package]
+name = "dust-atsamd09"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Drivers for Atmel SAM D09 hardware."
+license = "MIT OR Apache-2.0"
+
+[profile.dev]
+lto = true
+
+[profile.release]
+lto = true
+
+[features]
+atsamd09c13 = []
+atsamd09d14 = []
+
+[dependencies]
+dust = { path = "../dust", version = "0.1.0" }
+dust-cortex-m = { path = "../dust-cortex-m", version = "0.1.0", features = ["cortex-m0plus"] }
+volatile-register = "0.2.0"
