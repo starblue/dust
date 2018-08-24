@@ -36,7 +36,6 @@
 //  32  PIO0_16  PIO0_16  PIO0_17  PIO0_17
 //  33  VSS      VSS      VSS      VSS
 
-#![feature(rust_2018_preview)]
 #![feature(asm)]
 #![feature(const_fn)]
 #![feature(lang_items)]
