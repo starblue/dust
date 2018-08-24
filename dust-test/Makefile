@@ -26,7 +26,7 @@ CARGOFLAGS += --color never
 CARGOFLAGS += --release
 #CARGOFLAGS += --verbose
 
-EXECUTABLES = $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$B_$D))
+EXECUTABLES = $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$D_$B))
 
 BUILDS = $(addprefix build_, $(EXECUTABLES))
 HEX_FILES = $(addprefix $(OUTPUT_DIR)/, $(addsuffix .hex, $(EXECUTABLES)))
@@ -56,14 +56,14 @@ RUSTFLAGS += -C link-arg=-L"$(LD_DIR)"
 all: $(HEX_FILES)
 
 define b_d_rules =
-$(1):: $(OUTPUT_DIR)/$(1)_$(2).hex
-$(2):: $(OUTPUT_DIR)/$(1)_$(2).hex
+$(1):: $(OUTPUT_DIR)/$(2)_$(1).hex
+$(2):: $(OUTPUT_DIR)/$(2)_$(1).hex
 
-build_$(1)_$(2):
+build_$(2)_$(1):
 	RUSTFLAGS="-C link-arg=-T$(LD_DIR)/$(2).ld $(RUSTFLAGS)" \
 		cargo build $(CARGOFLAGS) --target $($(2)_TARGET) --features "$(2)" --bin $(1)
 
-$(OUTPUT_DIR)/$(1)_$(2).hex: build_$(1)_$(2)
+$(OUTPUT_DIR)/$(2)_$(1).hex: build_$(2)_$(1)
 	arm-none-eabi-objcopy -O ihex target/$($(2)_TARGET)/release/$(1) "$(OUTPUT_DIR)/$(2)_$(1)".hex
 endef
 $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$(eval $(call b_d_rules,$B,$D))))
