@@ -15,7 +15,7 @@ extern crate dust_lpc13xx;
 #[cfg(feature = "lpc8xx")]
 extern crate dust_lpc8xx;
 
-#[cfg(any(feature = "atsamd09", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
+#[cfg(any(feature = "atsamd09", feature = "atsaml11", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
 use dust::gpio::port::DirSet;
 #[cfg(any(feature = "lpc81x", feature = "lpc11xx", feature = "lpc13xx"))]
 use dust::gpio::port::DirSetValue;
@@ -25,6 +25,11 @@ use dust::gpio::port::{Clr, Set};
 use dust_atsamd09::port as gpio;
 #[cfg(feature = "atsamd09")]
 use dust_atsamd09::PORT as GPIO;
+
+#[cfg(feature = "atsaml11")]
+use dust_atsaml11::port as gpio;
+#[cfg(feature = "atsaml11")]
+use dust_atsaml11::PORT as GPIO;
 
 #[cfg(feature = "lpc8xx")]
 use dust_lpc8xx::gpio;
@@ -50,6 +55,8 @@ fn delay(n: usize) {
 
 #[cfg(feature = "atsamd09")]
 const LED: (usize, usize) = (0, 24);
+#[cfg(feature = "atsaml11")]
+const LED: (usize, usize) = (0, 0);
 #[cfg(any(feature = "lpc802", feature = "lpc804"))]
 const LED: (usize, usize) = (0, 15);
 #[cfg(feature = "lpc810")]
@@ -94,12 +101,12 @@ fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
     port.dir_modify_value(|w| w | (1 << bit_index));
 }
 
-#[cfg(any(feature = "atsamd09", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
+#[cfg(any(feature = "atsamd09", feature = "atsaml11", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
 fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
     port.dir_set(1 << bit_index);
 }
 
-#[cfg(feature = "atsamd09")]
+#[cfg(any(feature = "atsamd09", feature = "atsaml11"))]
 fn get_gpio_port() -> gpio::Port<'static> {
     let gpio = unsafe { &mut *GPIO };
     let (port_index, bit_index) = LED;

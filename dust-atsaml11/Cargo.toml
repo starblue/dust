@@ -1,0 +1,20 @@
+[package]
+name = "dust-atsaml11"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Drivers for Atmel SAM L11 hardware."
+license = "MIT OR Apache-2.0"
+
+[profile.dev]
+lto = true
+
+[profile.release]
+lto = true
+
+[features]
+atsaml11e15 = []
+
+[dependencies]
+dust = { path = "../dust", version = "0.1.0" }
+dust-cortex-m = { path = "../dust-cortex-m", version = "0.1.0", features = ["cortex-m23"] }
+volatile-register = "0.2.0"

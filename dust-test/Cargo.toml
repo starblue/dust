@@ -23,6 +23,7 @@ opt-level = "z"
 [features]
 atsamd09c13 = ["dust-atsamd09/atsamd09c13", "atsamd09"]
 atsamd09d14 = ["dust-atsamd09/atsamd09d14", "atsamd09"]
+atsaml11e15 = ["dust-atsaml11/atsaml11e15", "atsaml11"]
 lpc802 = ["dust-lpc8xx/lpc802", "lpc8xx"]
 lpc804 = ["dust-lpc8xx/lpc804", "lpc8xx"]
 lpc810 = ["dust-lpc8xx/lpc810", "lpc81x"]
@@ -39,6 +40,7 @@ lpc83x = ["lpc8xx"]
 lpc84x = ["lpc8xx"]
 
 atsamd09 = []
+atsaml11 = []
 lpc8xx = []
 lpc11xx = []
 lpc13xx = []
@@ -47,6 +49,7 @@ lpc13xx = []
 [dependencies]
 dust = { path = "../dust", version = "0.1.0" }
 dust-atsamd09 = { path = "../dust-atsamd09", version = "0.1.0", optional = true }
+dust-atsaml11 = { path = "../dust-atsaml11", version = "0.1.0", optional = true }
 dust-lpc8xx = { path = "../dust-lpc8xx", version = "0.1.0", optional = true }
 dust-lpc11xx = { path = "../dust-lpc11xx", version = "0.1.0", optional = true }
 dust-lpc13xx = { path = "../dust-lpc13xx", version = "0.1.0", optional = true }

@@ -8,6 +8,7 @@ license = "MIT OR Apache-2.0"
 [features]
 cortex-m0 = ["thumbv6m"]
 cortex-m0plus = ["thumbv6m"]
+cortex-m23 = ["thumbv6m"]
 cortex-m3 = ["thumbv7m"]
 cortex-m4 = ["thumbv7m"]
 cortex-m7 = ["thumbv7m"]
