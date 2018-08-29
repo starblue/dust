@@ -48,7 +48,7 @@ lpc1343_TARGET = thumbv7m-none-eabi
 RUSTFLAGS =
 #RUSTFLAGS += -C linker=lld
 #RUSTFLAGS += -Z linker-flavor=ld.lld
-RUSTFLAGS += -C link-arg=-nostartfiles
+#RUSTFLAGS += -C link-arg=-nostartfiles
 RUSTFLAGS += -C link-arg=-L"$(LD_DIR)"
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
 
