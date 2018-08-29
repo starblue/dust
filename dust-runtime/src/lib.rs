@@ -1,11 +1,11 @@
-#![feature(panic_implementation)]
+#![feature(panic_handler)]
 #![no_std]
 
 #[cfg(not(any(unix, windows)))]
 use core::panic::PanicInfo;
 
 #[cfg(not(any(unix, windows)))]
-#[panic_implementation]
+#[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
