@@ -40,10 +40,6 @@
 #![no_std]
 #![no_main]
 
-extern crate dust;
-#[cfg(feature = "lpc8xx")]
-extern crate dust_lpc8xx;
-
 use core::cmp::min;
 
 use dust::gpio::port::{Clr, Set};

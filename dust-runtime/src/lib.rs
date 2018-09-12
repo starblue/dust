@@ -1,13 +1,6 @@
 #![no_std]
 
-#[cfg(not(any(unix, windows)))]
-use core::panic::PanicInfo;
-
-#[cfg(not(any(unix, windows)))]
-#[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
-    loop {}
-}
+extern crate dust_panic;
 
 extern "C" {
     static __data_load__: u32;

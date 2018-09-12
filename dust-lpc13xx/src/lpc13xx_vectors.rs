@@ -1,3 +1,5 @@
+use dust::default_handler;
+
 default_handler!(pio0_0_irq_handler);
 default_handler!(pio0_1_irq_handler);
 default_handler!(pio0_2_irq_handler);

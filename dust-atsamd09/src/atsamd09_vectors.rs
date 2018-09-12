@@ -1,3 +1,5 @@
+use dust::default_handler;
+
 default_handler!(pm_irq_handler);
 default_handler!(sysctrl_irq_handler);
 default_handler!(wdt_irq_handler);

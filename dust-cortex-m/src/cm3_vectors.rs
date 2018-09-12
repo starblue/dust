@@ -1,6 +1,7 @@
 //! Exception vector table for Cortex-M3 and higher
 
-use reset_handler;
+use crate::reset_handler;
+use dust::default_handler;
 
 default_handler!(nmi_handler);
 default_handler!(hard_fault_handler);

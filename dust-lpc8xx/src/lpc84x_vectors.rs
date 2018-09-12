@@ -1,3 +1,5 @@
+use dust::default_handler;
+
 default_handler!(spi0_irq_handler);
 default_handler!(spi1_irq_handler);
 default_handler!(dac0_irq_handler);

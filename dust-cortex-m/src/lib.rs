@@ -2,11 +2,6 @@
 #![feature(linkage)]
 #![no_std]
 
-#[macro_use]
-extern crate dust;
-extern crate dust_runtime;
-extern crate volatile_register;
-
 use dust_runtime::crt0;
 
 #[cfg(any(feature = "cortex-m0", feature = "cortex-m0plus", feature = "cortex-m23"))]

@@ -2,14 +2,6 @@
 #![no_std]
 #![no_main]
 
-extern crate dust;
-#[cfg(feature = "lpc11xx")]
-extern crate dust_lpc11xx;
-#[cfg(feature = "lpc13xx")]
-extern crate dust_lpc13xx;
-#[cfg(feature = "lpc8xx")]
-extern crate dust_lpc8xx;
-
 #[cfg(any(feature = "atsamd09", feature = "atsaml11", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
 use dust::gpio::port::DirSet;
 #[cfg(any(feature = "lpc81x", feature = "lpc11xx", feature = "lpc13xx"))]
@@ -104,7 +96,7 @@ fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
 #[cfg(any(feature = "atsamd09", feature = "atsaml11"))]
 fn get_gpio_port() -> gpio::Port<'static> {
     let gpio = unsafe { &mut *GPIO };
-    let (port_index, bit_index) = LED;
+    let (_port_index, bit_index) = LED;
     let mut port = unsafe { gpio::Port::new(gpio) };
     init_gpio_port(&mut port, bit_index);
     port

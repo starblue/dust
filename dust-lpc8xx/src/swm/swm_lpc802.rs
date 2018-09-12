@@ -2,7 +2,7 @@
 //!
 //! Checked against UM11045 2018-03-23.
 
-use swm::{FixedFunction, MovableFunction};
+use crate::swm::{FixedFunction, MovableFunction};
 
 pub const PINASSIGN_REGISTERS: usize = 8;
 pub const PINASSIGN_FIXED_REGISTERS: usize = 0;
