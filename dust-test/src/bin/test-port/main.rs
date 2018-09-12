@@ -2,7 +2,11 @@
 #![no_std]
 #![no_main]
 
-#[cfg(any(feature = "atsamd09", feature = "atsaml11", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
+#[cfg(any(
+    feature = "atsamd09",
+    feature = "atsaml11",
+    all(feature = "lpc8xx", not(feature = "lpc81x"))
+))]
 use dust::gpio::port::DirSet;
 #[cfg(any(feature = "lpc81x", feature = "lpc11xx", feature = "lpc13xx"))]
 use dust::gpio::port::DirSetValue;
@@ -88,7 +92,11 @@ fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
     port.dir_modify_value(|w| w | (1 << bit_index));
 }
 
-#[cfg(any(feature = "atsamd09", feature = "atsaml11", all(feature = "lpc8xx", not(feature = "lpc81x"))))]
+#[cfg(any(
+    feature = "atsamd09",
+    feature = "atsaml11",
+    all(feature = "lpc8xx", not(feature = "lpc81x"))
+))]
 fn init_gpio_port(port: &mut gpio::Port, bit_index: usize) {
     port.dir_set(1 << bit_index);
 }

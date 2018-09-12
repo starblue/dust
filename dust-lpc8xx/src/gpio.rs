@@ -239,15 +239,13 @@ impl<'a> Pin<'a> {
     }
 }
 
-impl<'a> InputPin for Pin<'a>
-{
+impl<'a> InputPin for Pin<'a> {
     fn get_value(&mut self) -> bool {
         self.gpio.get_pin_value(self.index)
     }
 }
 
-impl<'a> OutputPin for Pin<'a>
-{
+impl<'a> OutputPin for Pin<'a> {
     fn set(&mut self) {
         self.gpio.set_pin(self.index);
     }

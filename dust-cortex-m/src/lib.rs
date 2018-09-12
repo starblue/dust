@@ -4,9 +4,17 @@
 
 use dust_runtime::crt0;
 
-#[cfg(any(feature = "cortex-m0", feature = "cortex-m0plus", feature = "cortex-m23"))]
+#[cfg(any(
+    feature = "cortex-m0",
+    feature = "cortex-m0plus",
+    feature = "cortex-m23"
+))]
 pub mod cm0_vectors;
-#[cfg(any(feature = "cortex-m3", feature = "cortex-m4", feature = "cortex-m7"))]
+#[cfg(any(
+    feature = "cortex-m3",
+    feature = "cortex-m4",
+    feature = "cortex-m7"
+))]
 pub mod cm3_vectors;
 
 pub mod intrinsics;
