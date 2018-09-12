@@ -1,6 +1,5 @@
 #![feature(asm)]
 #![feature(linkage)]
-#![feature(used)]
 #![no_std]
 
 #[macro_use]

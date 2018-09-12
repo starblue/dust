@@ -1,4 +1,3 @@
-#![feature(panic_handler)]
 #![no_std]
 
 #[cfg(not(any(unix, windows)))]

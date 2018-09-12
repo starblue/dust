@@ -1,6 +1,5 @@
 #![feature(const_fn)]
 #![feature(linkage)]
-#![feature(used)]
 #![no_std]
 
 #[macro_use]
