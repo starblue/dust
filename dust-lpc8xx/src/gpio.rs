@@ -1,4 +1,3 @@
-use dust::gpio::pin::mode;
 use dust::gpio::pin::{InputPin, OutputPin};
 use dust::gpio::port;
 use volatile_register::RW;
@@ -229,30 +228,25 @@ fn port_bit(pin: usize) -> (usize, usize) {
     (port, bit)
 }
 
-pub struct Pin<'a, M> {
-    mode: M,
+pub struct Pin<'a> {
     gpio: &'a Gpio,
     index: usize,
 }
 
-impl<'a, M> Pin<'a, M> {
-    pub fn new(mode: M, gpio: &mut Gpio, index: usize) -> Pin<M> {
-        Pin { mode, gpio, index }
+impl<'a> Pin<'a> {
+    pub fn new(gpio: &mut Gpio, index: usize) -> Pin {
+        Pin { gpio, index }
     }
 }
 
-impl<'a, M> InputPin for Pin<'a, M>
-where
-    M: mode::Input,
+impl<'a> InputPin for Pin<'a>
 {
     fn get_value(&mut self) -> bool {
         self.gpio.get_pin_value(self.index)
     }
 }
 
-impl<'a, M> OutputPin for Pin<'a, M>
-where
-    M: mode::Output,
+impl<'a> OutputPin for Pin<'a>
 {
     fn set(&mut self) {
         self.gpio.set_pin(self.index);
