@@ -50,6 +50,7 @@ RUSTFLAGS =
 #RUSTFLAGS += -Z linker-flavor=ld.lld
 #RUSTFLAGS += -C link-arg=-nostartfiles
 RUSTFLAGS += -C link-arg=-L"$(LD_DIR)"
+RUSTFLAGS += -C opt-level=z
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
 
 
