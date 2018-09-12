@@ -1,0 +1,9 @@
+[package]
+edition = "2018"
+name = "dust-panic"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Rust language panic handler."
+license = "MIT OR Apache-2.0"
+
+[dependencies]
