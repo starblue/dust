@@ -46,6 +46,7 @@ lpc13xx = []
 
 [dependencies]
 dust = { path = "../dust", version = "0.1.0" }
+dust-cortex-m = { path = "../dust-cortex-m", version = "0.1.0" }
 dust-atsamd09 = { path = "../dust-atsamd09", version = "0.1.0", optional = true }
 dust-atsaml11 = { path = "../dust-atsaml11", version = "0.1.0", optional = true }
 dust-lpc8xx = { path = "../dust-lpc8xx", version = "0.1.0", optional = true }
