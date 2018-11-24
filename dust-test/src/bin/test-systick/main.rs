@@ -3,7 +3,6 @@
 #![no_main]
 
 use core::ptr::read_volatile;
-use core::ptr::write_volatile;
 
 use dust_cortex_m::sys_tick;
 use dust_cortex_m::SYS_TICK;
@@ -145,7 +144,7 @@ static mut TIME_MS: u32 = 0;
 
 #[no_mangle]
 pub unsafe fn systick_handler() {
-    write_volatile(&mut TIME_MS, TIME_MS + 1);
+    TIME_MS += 1;
 }
 
 fn get_time_ms() -> u32 {
