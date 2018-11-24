@@ -10,73 +10,73 @@ use volatile_register::{RO, RW};
 #[repr(C)]
 pub struct Scb {
     /// CPUID base register
-    cpuid: RO<u32>,
+    pub cpuid: RO<u32>,
     /// Interrupt Control and State Register
-    icsr: RW<u32>,
+    pub icsr: RW<u32>,
     /// Vector Table Offset Register
-    vtor: RW<u32>,
+    pub vtor: RW<u32>,
     /// Application Interrupt and Reset Control Register
-    aircr: RW<u32>,
+    pub aircr: RW<u32>,
     /// System Control Register
-    scr: RW<u32>,
+    pub scr: RW<u32>,
     /// Configuration and Control Register
-    ccr: RW<u32>,
+    pub ccr: RW<u32>,
     /// System Handler Priority Register
-    shpr: [RW<u32>; 3],
+    pub shpr: [RW<u32>; 3],
     /// System Handler Control and State Register
-    shcsr: RW<u32>,
+    pub shcsr: RW<u32>,
     /// Configurable Fault Status Register
-    cfsr: RW<u32>,
+    pub cfsr: RW<u32>,
     /// HardFault Status Register
-    hfsr: RW<u32>,
+    pub hfsr: RW<u32>,
     /// Debug Fault Status Register
-    dfsr: RW<u32>,
+    pub dfsr: RW<u32>,
     /// MemManage Fault Address Register
-    mmfar: RW<u32>,
+    pub mmfar: RW<u32>,
     /// Bus Fault Address Register
-    bfar: RW<u32>,
+    pub bfar: RW<u32>,
     /// Auxiliary Fault Status Register
-    afsr: RW<u32>,
+    pub afsr: RW<u32>,
     /// Processor Feature Register 0..1
-    id_pfr0: RO<u32>,
+    pub id_pfr0: RO<u32>,
     /// Processor Feature Register 0..1
-    id_pfr1: RO<u32>,
+    pub id_pfr1: RO<u32>,
     /// Debug Feature Register 0
-    id_dfr0: RO<u32>,
+    pub id_dfr0: RO<u32>,
     /// Auxiliary Feature Register 0
-    id_afr0: RO<u32>,
+    pub id_afr0: RO<u32>,
     /// Memory Model Feature Register 0
-    id_mmfr0: RO<u32>,
+    pub id_mmfr0: RO<u32>,
     /// Memory Model Feature Register 1
-    id_mmfr1: RO<u32>,
+    pub id_mmfr1: RO<u32>,
     /// Memory Model Feature Register 2
-    id_mmfr2: RO<u32>,
+    pub id_mmfr2: RO<u32>,
     /// Memory Model Feature Register 3
-    id_mmfr3: RO<u32>,
+    pub id_mmfr3: RO<u32>,
     /// Instruction Set Attribute Feature Register 0
-    id_isar0: RO<u32>,
+    pub id_isar0: RO<u32>,
     /// Instruction Set Attribute Feature Register 1
-    id_isar1: RO<u32>,
+    pub id_isar1: RO<u32>,
     /// Instruction Set Attribute Feature Register 2
-    id_isar2: RO<u32>,
+    pub id_isar2: RO<u32>,
     /// Instruction Set Attribute Feature Register 3
-    id_isar3: RO<u32>,
+    pub id_isar3: RO<u32>,
     /// Instruction Set Attribute Feature Register 4
-    id_isar4: RO<u32>,
+    pub id_isar4: RO<u32>,
     /// Instruction Set Attribute Feature Register 5
-    id_isar5: RO<u32>,
+    pub id_isar5: RO<u32>,
     /// Cache Level ID Register
-    clidr: RO<u32>,
+    pub clidr: RO<u32>,
     /// Cache Type Register
-    ctr: RO<u32>,
+    pub ctr: RO<u32>,
     /// Current Cache Size ID Register
-    ccsidr: RO<u32>,
+    pub ccsidr: RO<u32>,
     /// Cache Size Selection Register
-    csselr: RW<u32>,
+    pub csselr: RW<u32>,
     /// Coprocessor Access Control Register
-    cpacr: RW<u32>,
+    pub cpacr: RW<u32>,
     /// Non-secure Access Control Register
-    nsacr: RW<u32>,
+    pub nsacr: RW<u32>,
 }
 
 #[cfg(test)]

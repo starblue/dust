@@ -4,13 +4,13 @@ use volatile_register::{RO, RW};
 /// Nested Vectored Interrupt Controller
 pub struct SysTick {
     /// Control and Status Register
-    csr: RW<u32>,
+    pub csr: RW<u32>,
     /// Reload Value Register
-    rvr: RW<u32>,
+    pub rvr: RW<u32>,
     /// Current Value Register
-    cvr: RW<u32>,
+    pub cvr: RW<u32>,
     /// Calibration value register
-    calib: RO<u32>,
+    pub calib: RO<u32>,
 }
 
 pub const CSR_ENABLE: u32 = 0 << 0;
