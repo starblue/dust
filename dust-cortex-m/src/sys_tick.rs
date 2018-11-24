@@ -51,9 +51,11 @@ impl SysTick {
 
 #[cfg(test)]
 mod test {
+    use crate::SYS_TICK;
+
     #[test]
     fn test_sys_tick() {
-        let sys_tick = unsafe { &mut *::SYS_TICK };
+        let sys_tick = unsafe { &mut *SYS_TICK };
 
         assert_eq!(address(&sys_tick.csr), 0xE000_E010);
         assert_eq!(address(&sys_tick.rvr), 0xE000_E014);

@@ -1,30 +1,12 @@
 use volatile_register::{RO, RW};
 
 /// System Control Block
-#[cfg(feature = "thumbv6m")]
-#[repr(C)]
-pub struct Scb {
-    /// CPUID base register
-    cpuid: RO<u32>,
-    /// Interrupt Control and State Register
-    icsr: RW<u32>,
-    /// Vector Table Offset Register
-    vtor: RW<u32>,
-    /// Application Interrupt and Reset Control Register
-    aircr: RW<u32>,
-    /// System Control Register
-    scr: RW<u32>,
-    /// Configuration and Control Register
-    ccr: RW<u32>,
-    /// System Handler Priority Register
-    shpr: [RW<u32>; 3],
-    /// System Handler Control and State Register
-    shcsr: RW<u32>,
-    reserved_d28: [u32; 2],
-    /// Debug Fault Status Register
-    dfsr: RW<u32>,
-}
-#[cfg(feature = "thumbv7m")]
+///
+/// This is the v8-M mainline version with all registers.
+/// Smaller cores implement only a subset of registers,
+/// and some registers depend on configuration options,
+/// but this is currently not implemented.
+// TODO implement different configurations
 #[repr(C)]
 pub struct Scb {
     /// CPUID base register
@@ -55,7 +37,6 @@ pub struct Scb {
     bfar: RW<u32>,
     /// Auxiliary Fault Status Register
     afsr: RW<u32>,
-    // CPUID registers
     /// Processor Feature Register 0..1
     id_pfr0: RO<u32>,
     /// Processor Feature Register 0..1
@@ -84,18 +65,27 @@ pub struct Scb {
     id_isar4: RO<u32>,
     /// Instruction Set Attribute Feature Register 5
     id_isar5: RO<u32>,
-    reserved_d78: [u32; 2],
-    reserved_d80: [u32; 2],
+    /// Cache Level ID Register
+    clidr: RO<u32>,
+    /// Cache Type Register
+    ctr: RO<u32>,
+    /// Current Cache Size ID Register
+    ccsidr: RO<u32>,
+    /// Cache Size Selection Register
+    csselr: RW<u32>,
     /// Coprocessor Access Control Register
     cpacr: RW<u32>,
+    /// Non-secure Access Control Register
+    nsacr: RW<u32>,
 }
 
 #[cfg(test)]
 mod test {
-    #[cfg(any(feature = "thumbv6m", feature = "thumbv7m"))]
+    use crate::SCB;
+
     #[test]
     fn test_scb() {
-        let scb = unsafe { &mut *::SCB };
+        let scb = unsafe { &mut *SCB };
 
         assert_eq!(address(&scb.cpuid), 0xE000_ED00);
         assert_eq!(address(&scb.icsr), 0xE000_ED04);
@@ -105,16 +95,9 @@ mod test {
         assert_eq!(address(&scb.ccr), 0xE000_ED14);
         assert_eq!(address(&scb.shpr), 0xE000_ED18);
         assert_eq!(address(&scb.shcsr), 0xE000_ED24);
-        assert_eq!(address(&scb.dfsr), 0xE000_ED30);
-    }
-
-    #[cfg(feature = "thumbv7m")]
-    #[test]
-    fn test_scb_v7m() {
-        let scb = unsafe { &mut *::SCB };
-
         assert_eq!(address(&scb.cfsr), 0xE000_ED28);
         assert_eq!(address(&scb.hfsr), 0xE000_ED2C);
+        assert_eq!(address(&scb.dfsr), 0xE000_ED30);
         assert_eq!(address(&scb.mmfar), 0xE000_ED34);
         assert_eq!(address(&scb.bfar), 0xE000_ED38);
         assert_eq!(address(&scb.afsr), 0xE000_ED3C);
@@ -132,7 +115,12 @@ mod test {
         assert_eq!(address(&scb.id_isar3), 0xE000_ED6C);
         assert_eq!(address(&scb.id_isar4), 0xE000_ED70);
         assert_eq!(address(&scb.id_isar5), 0xE000_ED74);
+        assert_eq!(address(&scb.clidr), 0xE000_ED78);
+        assert_eq!(address(&scb.ctr), 0xE000_ED7C);
+        assert_eq!(address(&scb.ccsidr), 0xE000_ED80);
+        assert_eq!(address(&scb.csselr), 0xE000_ED84);
         assert_eq!(address(&scb.cpacr), 0xE000_ED88);
+        assert_eq!(address(&scb.nsacr), 0xE000_ED8C);
     }
 
     fn address<T>(r: *const T) -> usize {

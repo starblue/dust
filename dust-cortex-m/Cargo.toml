@@ -7,15 +7,20 @@ description = "Drivers for Cortex-M hardware."
 license = "MIT OR Apache-2.0"
 
 [features]
-cortex-m0 = ["thumbv6m"]
-cortex-m0plus = ["thumbv6m"]
-cortex-m23 = ["thumbv6m"]
-cortex-m3 = ["thumbv7m"]
-cortex-m4 = ["thumbv7m"]
-cortex-m7 = ["thumbv7m"]
+cortex-m0 = ["v6m"]
+cortex-m0plus = ["v6m"]
+cortex-m3 = ["v7m"]
+cortex-m4 = ["v7m"]
+cortex-m7 = ["v7m"]
+cortex-m23 = ["v8m_base"]
+cortex-m33 = ["v8m_main"]
 
-thumbv6m = []
-thumbv7m = []
+v8m_base = ["v8m"]
+v8m_main = ["v8m"]
+
+v6m = []
+v7m = []
+v8m = []
 
 [dependencies]
 dust = { path = "../dust", version = "0.1.0" }

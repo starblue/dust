@@ -7,7 +7,7 @@
 //!
 //! # A4.4.8 Miscellaneous data-processing instructions
 
-#[cfg(feature = "thumbv7m")]
+#[cfg(feature = "v7m")]
 #[inline(always)]
 /// Reverse the bit order of a 32-bit value
 pub fn rbit(a: u32) -> u32 {
@@ -204,7 +204,7 @@ pub fn cpsid_i() {
 }
 
 /// Change Processor State, fault enable (CPSIE F) instruction
-#[cfg(feature = "thumbv7m")]
+#[cfg(feature = "v7m")]
 #[inline(always)]
 pub fn cpsie_f() {
     unsafe {
@@ -217,7 +217,7 @@ pub fn cpsie_f() {
 }
 
 /// Change Processor State, fault disable (CPSID F) instruction
-#[cfg(feature = "thumbv7m")]
+#[cfg(feature = "v7m")]
 #[inline(always)]
 pub fn cpsid_f() {
     unsafe {
