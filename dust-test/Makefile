@@ -46,7 +46,9 @@ lpc1343_TARGET = thumbv7m-none-eabi
 
 
 RUSTFLAGS =
-RUSTFLAGS += -C link-arg=-L"$(LD_DIR)"
+RUSTFLAGS += -C link-arg=-T$(LD_DIR)/$(2).ld
+RUSTFLAGS += -C link-arg=-L$(LD_DIR)
+RUSTFLAGS += -C link-arg=-Map=$(OUTPUT_DIR)/$(2)_$(1).map
 RUSTFLAGS += -C opt-level=z
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
 
@@ -58,7 +60,7 @@ $(1):: $(OUTPUT_DIR)/$(2)_$(1).hex
 $(2):: $(OUTPUT_DIR)/$(2)_$(1).hex
 
 build_$(2)_$(1):
-	RUSTFLAGS="-C link-arg=-T$(LD_DIR)/$(2).ld $(RUSTFLAGS)" \
+	RUSTFLAGS="$(RUSTFLAGS)" \
 		cargo build $(CARGOFLAGS) --target $($(2)_TARGET) --features "$(2)" --bin $(1)
 
 $(OUTPUT_DIR)/$(2)_$(1).hex: build_$(2)_$(1)
