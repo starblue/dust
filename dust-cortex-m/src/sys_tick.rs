@@ -13,14 +13,14 @@ pub struct SysTick {
     pub calib: RO<u32>,
 }
 
-pub const CSR_ENABLE: u32 = 0 << 0;
-pub const CSR_TICKINT: u32 = 0 << 1;
-pub const CSR_CLKSOURCE: u32 = 0 << 2;
-pub const CSR_COUNTFLAG: u32 = 0 << 16;
+pub const CSR_ENABLE: u32 = 1 << 0;
+pub const CSR_TICKINT: u32 = 1 << 1;
+pub const CSR_CLKSOURCE: u32 = 1 << 2;
+pub const CSR_COUNTFLAG: u32 = 1 << 16;
 
 pub const CALIB_TENMS_MASK: u32 = 0x00ffffff;
-pub const CALIB_SKEW: u32 = 0 << 30;
-pub const CALIB_NOREF: u32 = 0 << 31;
+pub const CALIB_SKEW: u32 = 1 << 30;
+pub const CALIB_NOREF: u32 = 1 << 31;
 
 impl SysTick {
     pub fn init(&mut self, reload_value: u32) {
