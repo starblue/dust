@@ -138,18 +138,19 @@ pub fn wfi() {
     }
 }
 
-// Yield (YIELD) instruction
-// TODO (collides with yield keyword)
-//#[inline(always)]
-// pub fn yield() {
-//     unsafe {
-//         asm!("yield"
-//              :
-//              :
-//              :
-//              : "volatile");
-//     }
-// }
+/// Yield (YIELD) instruction
+///
+/// We use a raw identifier because of the yield keyword.
+#[inline(always)]
+pub fn r#yield() {
+    unsafe {
+        asm!("yield"
+             :
+             :
+             :
+             : "volatile");
+    }
+}
 
 /// # A4.9 Exception-generating instructions
 
