@@ -1,6 +1,7 @@
 BINARIES =
 BINARIES += test-port
 BINARIES += test-systick
+BINARIES += test-uart
 BINARIES += test-plu
 BINARIES += test-all-pins
 
@@ -13,8 +14,7 @@ DEVICES += lpc1343
 
 test-port_DEVICES = $(DEVICES)
 test-systick_DEVICES = $(DEVICES)
-test-uart_DEVICES = $(DEVICES)
-
+test-uart_DEVICES = lpc824
 test-plu_DEVICES = lpc804
 test-all-pins_DEVICES = lpc802 lpc804 lpc822 lpc824 lpc845
 
