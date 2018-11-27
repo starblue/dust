@@ -8,7 +8,7 @@ BINARIES += test-all-pins
 DEVICES =
 DEVICES += atsamd09c13 atsamd09d14
 DEVICES += atsaml11e15
-DEVICES += lpc802 lpc804 lpc810 lpc812 lpc822 lpc824 lpc845
+DEVICES += lpc802 lpc804 lpc810 lpc812 lpc822 lpc824 lpc832 lpc845
 DEVICES += lpc1114
 DEVICES += lpc1343
 
@@ -42,6 +42,7 @@ lpc810_TARGET = thumbv6m-none-eabi
 lpc812_TARGET = thumbv6m-none-eabi
 lpc822_TARGET = thumbv6m-none-eabi
 lpc824_TARGET = thumbv6m-none-eabi
+lpc832_TARGET = thumbv6m-none-eabi
 lpc845_TARGET = thumbv6m-none-eabi
 lpc1114_TARGET = thumbv6m-none-eabi
 lpc1343_TARGET = thumbv7m-none-eabi

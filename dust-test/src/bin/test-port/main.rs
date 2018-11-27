@@ -54,7 +54,7 @@ const LED: (usize, usize) = (0, 15);
 const LED: (usize, usize) = (0, 1);
 #[cfg(feature = "lpc812")]
 const LED: (usize, usize) = (0, 15);
-#[cfg(any(feature = "lpc82x", feature = "lpc84x"))]
+#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
 const LED: (usize, usize) = (0, 0);
 #[cfg(feature = "lpc1114")]
 const LED: (usize, usize) = (0, 9);
