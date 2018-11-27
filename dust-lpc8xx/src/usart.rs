@@ -92,10 +92,9 @@ pub const STAT_RXNOISEINT: u32 = 1 << 15;
 pub const STAT_ABERR: u32 = 1 << 16;
 
 impl Usart {
-    pub fn init(&self) {
+    pub fn init(&self, divisor: u32) {
         unsafe {
             let config = CFG_DATALEN_8 | CFG_PARITY_NONE | CFG_STOPLEN_1;
-            let divisor = 4;
             self.brg.write(divisor - 1);
             self.cfg.write(CFG_ENABLE | config);
         }
