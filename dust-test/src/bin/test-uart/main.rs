@@ -6,9 +6,9 @@ use dust_lpc8xx::swm::{U0_RXD, U0_TXD};
 use dust_lpc8xx::syscon::Syscon;
 use dust_lpc8xx::syscon::CLOCK_SWM;
 use dust_lpc8xx::syscon::CLOCK_UART0;
-#[cfg(feature = "lpc84x")]
+#[cfg(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x"))]
 use dust_lpc8xx::syscon::RESET_UART0;
-#[cfg(feature = "lpc82x")]
+#[cfg(any(feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
 use dust_lpc8xx::syscon::RESET_USART0;
 use dust_lpc8xx::usart::Usart;
 use dust_lpc8xx::SWM;
@@ -22,8 +22,10 @@ fn delay(n: usize) {
     }
 }
 
-#[cfg(feature = "lpc82x")]
+#[cfg(any(feature = "lpc802m001", feature = "lpc804m101", feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
 const UART_PINS: (usize, usize) = (4, 0);
+#[cfg(any(feature = "lpc802m011", feature = "lpc804m111"))]
+const UART_PINS: (usize, usize) = (9, 8);
 #[cfg(feature = "lpc84x")]
 const UART_PINS: (usize, usize) = (25, 24);
 
@@ -55,7 +57,7 @@ const FRG_DIV: u32 = 0xff;
 /// Divisor for the baud rate generator
 const UART_BRG_DIVISOR: u32 = 4;
 
-#[cfg(feature = "lpc82x")]
+#[cfg(any(feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
 fn init_uart0_syscon(syscon: &mut Syscon) {
     unsafe {
         syscon.enable_clock(CLOCK_UART0);
@@ -68,7 +70,7 @@ fn init_uart0_syscon(syscon: &mut Syscon) {
         syscon.uartfrgmult.write(FRG_MULT);
     }
 }
-#[cfg(feature = "lpc84x")]
+#[cfg(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x"))]
 fn init_uart0_syscon(syscon: &mut Syscon) {
     unsafe {
         syscon.enable_clock(CLOCK_UART0);

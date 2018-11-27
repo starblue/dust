@@ -8,15 +8,15 @@ BINARIES += test-all-pins
 DEVICES =
 DEVICES += atsamd09c13 atsamd09d14
 DEVICES += atsaml11e15
-DEVICES += lpc802 lpc804 lpc810 lpc812 lpc822 lpc824 lpc832 lpc845
+DEVICES += lpc802m001 lpc802m011 lpc804m101 lpc804m111  lpc810 lpc812 lpc822 lpc824 lpc832 lpc845
 DEVICES += lpc1114
 DEVICES += lpc1343
 
 test-port_DEVICES = $(DEVICES)
 test-systick_DEVICES = $(DEVICES)
-test-uart_DEVICES = lpc824 lpc845
-test-plu_DEVICES = lpc804
-test-all-pins_DEVICES = lpc802 lpc804 lpc822 lpc824 lpc845
+test-uart_DEVICES = lpc802m001 lpc802m011 lpc804m101 lpc804m111 lpc810 lpc812 lpc822 lpc824 lpc832 lpc845
+test-plu_DEVICES = lpc804m101
+test-all-pins_DEVICES = lpc802m001 lpc804m101 lpc822 lpc824 lpc845
 
 
 LD_DIR = ldscripts
@@ -36,8 +36,10 @@ HEX_FILES = $(addprefix $(OUTPUT_DIR)/, $(addsuffix .hex, $(EXECUTABLES)))
 atsamd09c13_TARGET = thumbv6m-none-eabi
 atsamd09d14_TARGET = thumbv6m-none-eabi
 atsaml11e15_TARGET = thumbv6m-none-eabi
-lpc802_TARGET = thumbv6m-none-eabi
-lpc804_TARGET = thumbv6m-none-eabi
+lpc802m001_TARGET = thumbv6m-none-eabi
+lpc802m011_TARGET = thumbv6m-none-eabi
+lpc804m101_TARGET = thumbv6m-none-eabi
+lpc804m111_TARGET = thumbv6m-none-eabi
 lpc810_TARGET = thumbv6m-none-eabi
 lpc812_TARGET = thumbv6m-none-eabi
 lpc822_TARGET = thumbv6m-none-eabi
