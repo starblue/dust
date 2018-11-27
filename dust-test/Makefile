@@ -14,7 +14,7 @@ DEVICES += lpc1343
 
 test-port_DEVICES = $(DEVICES)
 test-systick_DEVICES = $(DEVICES)
-test-uart_DEVICES = lpc824
+test-uart_DEVICES = lpc824 lpc845
 test-plu_DEVICES = lpc804
 test-all-pins_DEVICES = lpc802 lpc804 lpc822 lpc824 lpc845
 
