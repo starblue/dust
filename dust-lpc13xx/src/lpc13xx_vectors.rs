@@ -60,7 +60,7 @@ default_handler!(ssp1_irq_handler);
 
 #[used]
 #[link_section = ".irq_vectors"]
-pub static IRQ_VECTORS: [Option<fn()>; 64] = [
+pub static IRQ_VECTORS: [Option<unsafe extern "C" fn()>; 64] = [
     //  0
     Some(pio0_0_irq_handler),
     Some(pio0_1_irq_handler),

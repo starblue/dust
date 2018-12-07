@@ -11,7 +11,7 @@ default_handler!(systick_handler);
 
 #[used]
 #[link_section = ".exception_vectors"]
-pub static VECTORS: [Option<unsafe fn()>; 15] = [
+pub static VECTORS: [Option<unsafe extern "C" fn()>; 15] = [
     Some(reset_handler),
     Some(nmi_handler),
     Some(hard_fault_handler),

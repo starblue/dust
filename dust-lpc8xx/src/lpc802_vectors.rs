@@ -25,7 +25,7 @@ default_handler!(pinint7_irq_handler);
 
 #[used]
 #[link_section = ".irq_vectors"]
-pub static IRQ_VECTORS: [Option<fn()>; 32] = [
+pub static IRQ_VECTORS: [Option<unsafe extern "C" fn()>; 32] = [
     // 0
     Some(spi0_irq_handler),
     None,

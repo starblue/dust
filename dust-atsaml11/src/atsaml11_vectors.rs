@@ -48,7 +48,7 @@ default_handler!(tram_irq_handler);
 
 #[used]
 #[link_section = ".irq_vectors"]
-pub static IRQ_VECTORS: [Option<fn()>; 45] = [
+pub static IRQ_VECTORS: [Option<unsafe extern "C" fn()>; 45] = [
     // 0
     Some(pm_irq_handler),
     Some(wdt_irq_handler),

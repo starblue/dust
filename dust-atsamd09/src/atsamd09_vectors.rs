@@ -16,7 +16,7 @@ default_handler!(adc_irq_handler);
 
 #[used]
 #[link_section = ".irq_vectors"]
-pub static IRQ_VECTORS: [Option<fn()>; 32] = [
+pub static IRQ_VECTORS: [Option<unsafe extern "C" fn()>; 32] = [
     // 0
     Some(pm_irq_handler),
     Some(sysctrl_irq_handler),
