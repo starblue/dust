@@ -22,7 +22,13 @@ fn delay(n: usize) {
     }
 }
 
-#[cfg(any(feature = "lpc802m001", feature = "lpc804m101", feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
+#[cfg(any(
+    feature = "lpc802m001",
+    feature = "lpc804m101",
+    feature = "lpc81x",
+    feature = "lpc82x",
+    feature = "lpc83x"
+))]
 const UART_PINS: (usize, usize) = (4, 0);
 #[cfg(any(feature = "lpc802m011", feature = "lpc804m111"))]
 const UART_PINS: (usize, usize) = (9, 8);
