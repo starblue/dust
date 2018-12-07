@@ -1,0 +1,10 @@
+[package]
+edition = "2018"
+name = "dust-hardfault"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "Hard-fault handler which dumps registers and stack."
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+dust-cortex-m = { path = "../dust-cortex-m", version = "0.1.0" }

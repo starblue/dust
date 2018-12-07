@@ -4,6 +4,7 @@ BINARIES += test-systick
 BINARIES += test-uart
 BINARIES += test-plu
 BINARIES += test-all-pins
+BINARIES += test-hardfault-handler
 
 DEVICES =
 DEVICES += atsamd09c13 atsamd09d14
@@ -17,7 +18,7 @@ test-systick_DEVICES = $(DEVICES)
 test-uart_DEVICES = lpc802m001 lpc802m011 lpc804m101 lpc804m111 lpc810 lpc812 lpc822 lpc824 lpc832 lpc845
 test-plu_DEVICES = lpc804m101
 test-all-pins_DEVICES = lpc802m001 lpc804m101 lpc822 lpc824 lpc845
-
+test-hardfault-handler_DEVICES = lpc845
 
 LD_DIR = ldscripts
 OUTPUT_DIR = output
