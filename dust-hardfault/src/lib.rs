@@ -2,7 +2,6 @@
 #![feature(asm)]
 #![feature(naked_functions)]
 
-use dust_cortex_m::scb;
 use dust_cortex_m::SCB;
 
 /// Write a byte to the output device, blocking as necessary.
