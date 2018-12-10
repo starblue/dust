@@ -40,24 +40,24 @@ pub const CFG_SYNCMST: u32 = 1 << 14;
 
 pub const CFG_LOOP: u32 = 1 << 15;
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_OETA: u32 = 1 << 18;
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_AUTOADDR: u32 = 1 << 19;
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_OESEL: u32 = 1 << 20;
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_OEPOL_LOW: u32 = 0 << 21;
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_OEPOL_HIGH: u32 = 1 << 21;
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_RXPOL_INVERTED: u32 = 1 << 22;
 
-#[cfg(any(feature = "lpc82x", feature = "lpc83x", feature = "lpc84x"))]
+#[cfg(not(feature = "lpc81x"))]
 pub const CFG_TXPOL_INVERTED: u32 = 1 << 23;
 
 pub const CTL_TXBRKEN: u32 = 1 << 1;
