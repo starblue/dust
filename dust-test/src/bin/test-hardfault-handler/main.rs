@@ -117,7 +117,7 @@ extern "C" fn hard_fault_write_byte(b: u8) {
 
 unsafe fn read(a: u32) -> u32 {
     use volatile_register::RO;
-            
+
     let p = a as *const RO<u32>;
     let r = &*p;
     r.read()
