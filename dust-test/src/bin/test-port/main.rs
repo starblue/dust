@@ -37,6 +37,11 @@ use dust_lpc13xx::gpio;
 #[cfg(feature = "lpc13xx")]
 use dust_lpc13xx::GPIO;
 
+#[cfg(feature = "stm32f0")]
+use dust_stm32f0::gpio;
+#[cfg(feature = "stm32f0")]
+use dust_stm32f0::GPIO;
+
 fn delay(n: usize) {
     for _ in 0..n {
         // Make sure the loop is not optimized away
@@ -60,6 +65,8 @@ const LED: (usize, usize) = (0, 0);
 const LED: (usize, usize) = (0, 9);
 #[cfg(feature = "lpc1343")]
 const LED: (usize, usize) = (3, 0);
+#[cfg(feature = "stm32f0")]
+const LED: (usize, usize) = (0, 0);
 
 #[cfg(any(feature = "lpc802", feature = "lpc804"))]
 fn enable_gpio_clock() {
@@ -82,7 +89,25 @@ fn enable_gpio_clock() {
     }
 }
 
-#[cfg(not(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x")))]
+#[cfg(feature = "stm32f0")]
+fn enable_gpio_clock() {
+    use dust_stm32f0::rcc;
+    use dust_stm32f0::RCC;
+    unsafe {
+        let rcc = &mut *RCC;
+        // enable clock for GPIOA
+        rcc.ahbenr.modify(|w| {
+            w | rcc::AHB_IOPA | rcc::AHB_IOPB | rcc::AHB_IOPC | rcc::AHB_IOPD | rcc::AHB_IOPF
+        });
+    }
+}
+
+#[cfg(not(any(
+    feature = "lpc802",
+    feature = "lpc804",
+    feature = "lpc84x",
+    feature = "stm32f0"
+)))]
 fn enable_gpio_clock() {
     // GPIO clock is already enabled after reset
 }
@@ -125,6 +150,15 @@ fn get_gpio_port() -> gpio::Port<'static> {
     let gpio = unsafe { &mut *GPIO[port_index] };
     let mut port = unsafe { gpio::Port::new(gpio) };
     init_gpio_port(&mut port, bit_index);
+    port
+}
+
+#[cfg(any(feature = "stm32f0"))]
+fn get_gpio_port() -> gpio::Port<'static> {
+    let (port_index, bit_index) = LED;
+    let gpio = unsafe { &mut *GPIO[port_index].unwrap() };
+    gpio.set_pin_output(bit_index);
+    let port = unsafe { gpio::Port::new(gpio) };
     port
 }
 

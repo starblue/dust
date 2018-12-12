@@ -51,6 +51,15 @@ lpc8xx = []
 lpc11xx = []
 lpc13xx = []
 
+stm32f030x6 = ["dust-stm32f0/stm32f030x6", "stm32f030"]
+stm32f070x6 = ["dust-stm32f0/stm32f070x6", "stm32f070"]
+
+stm32f030 = ["stm32f0x0"]
+stm32f070 = ["stm32f0x0"]
+
+stm32f0x0 = ["stm32f0"]
+
+stm32f0 = []
 
 [dependencies]
 dust = { path = "../dust", version = "0.1.0" }
@@ -60,5 +69,6 @@ dust-atsaml11 = { path = "../dust-atsaml11", version = "0.1.0", optional = true 
 dust-lpc8xx = { path = "../dust-lpc8xx", version = "0.1.0", optional = true }
 dust-lpc11xx = { path = "../dust-lpc11xx", version = "0.1.0", optional = true }
 dust-lpc13xx = { path = "../dust-lpc13xx", version = "0.1.0", optional = true }
+dust-stm32f0 = { path = "../dust-stm32f0", version = "0.1.0", optional = true }
 dust-hardfault = { path = "../dust-hardfault", version = "0.1.0", optional = true }
 volatile-register = "0.2.0"

@@ -12,6 +12,7 @@ DEVICES += atsaml11e15
 DEVICES += lpc802m001 lpc802m011 lpc804m101 lpc804m111  lpc810 lpc812 lpc822 lpc824 lpc832 lpc845
 DEVICES += lpc1114
 DEVICES += lpc1343
+DEVICES += stm32f030x6 stm32f070x6
 
 test-port_DEVICES = $(DEVICES)
 test-systick_DEVICES = $(DEVICES)
@@ -49,7 +50,8 @@ lpc832_TARGET = thumbv6m-none-eabi
 lpc845_TARGET = thumbv6m-none-eabi
 lpc1114_TARGET = thumbv6m-none-eabi
 lpc1343_TARGET = thumbv7m-none-eabi
-
+stm32f030x6_TARGET = thumbv6m-none-eabi
+stm32f070x6_TARGET = thumbv6m-none-eabi
 
 RUSTFLAGS =
 RUSTFLAGS += -C link-arg=-T$(LD_DIR)/$(2).ld

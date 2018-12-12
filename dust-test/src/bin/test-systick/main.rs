@@ -42,6 +42,11 @@ use dust_lpc13xx::gpio;
 #[cfg(feature = "lpc13xx")]
 use dust_lpc13xx::GPIO;
 
+#[cfg(feature = "stm32f0")]
+use dust_stm32f0::gpio;
+#[cfg(feature = "stm32f0")]
+use dust_stm32f0::GPIO;
+
 #[cfg(feature = "atsamd09")]
 const LED: (usize, usize) = (0, 24);
 #[cfg(feature = "atsaml11")]
@@ -62,6 +67,8 @@ const LED: (usize, usize) = (0, 0);
 const LED: (usize, usize) = (0, 9);
 #[cfg(feature = "lpc1343")]
 const LED: (usize, usize) = (3, 0);
+#[cfg(feature = "stm32f0")]
+const LED: (usize, usize) = (0, 0);
 
 #[cfg(any(feature = "lpc802", feature = "lpc804"))]
 fn enable_gpio_clock() {
@@ -84,7 +91,25 @@ fn enable_gpio_clock() {
     }
 }
 
-#[cfg(not(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x")))]
+#[cfg(feature = "stm32f0")]
+fn enable_gpio_clock() {
+    use dust_stm32f0::rcc;
+    use dust_stm32f0::RCC;
+    unsafe {
+        let rcc = &mut *RCC;
+        // enable clock for GPIOA
+        rcc.ahbenr.modify(|w| {
+            w | rcc::AHB_IOPA | rcc::AHB_IOPB | rcc::AHB_IOPC | rcc::AHB_IOPD | rcc::AHB_IOPF
+        });
+    }
+}
+
+#[cfg(not(any(
+    feature = "lpc802",
+    feature = "lpc804",
+    feature = "lpc84x",
+    feature = "stm32f0"
+)))]
 fn enable_gpio_clock() {
     // GPIO clock is already enabled after reset
 }
@@ -130,6 +155,15 @@ fn get_gpio_port() -> gpio::Port<'static> {
     port
 }
 
+#[cfg(any(feature = "stm32f0"))]
+fn get_gpio_port() -> gpio::Port<'static> {
+    let (port_index, bit_index) = LED;
+    let gpio = unsafe { &mut *GPIO[port_index].unwrap() };
+    gpio.set_pin_output(bit_index);
+    let port = unsafe { gpio::Port::new(gpio) };
+    port
+}
+
 #[cfg(feature = "atsamd09")]
 const CLOCK_FREQUENCY: u32 = 1_000_000;
 #[cfg(feature = "atsaml11")]
@@ -140,6 +174,8 @@ const CLOCK_FREQUENCY: u32 = 12_000_000;
 const CLOCK_FREQUENCY: u32 = 12_000_000;
 #[cfg(feature = "lpc13xx")]
 const CLOCK_FREQUENCY: u32 = 12_000_000;
+#[cfg(feature = "stm32f0x0")]
+const CLOCK_FREQUENCY: u32 = 8_000_000;
 
 /// Time since system startup in milliseconds
 static mut TIME_MS: u32 = 0;
