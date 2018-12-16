@@ -2,6 +2,9 @@
 #![no_std]
 #![no_main]
 
+use core::fmt;
+use core::fmt::Write;
+
 use dust_lpc8xx::swm::{U0_RXD, U0_TXD};
 use dust_lpc8xx::syscon::Syscon;
 use dust_lpc8xx::syscon::CLOCK_SWM;
@@ -10,7 +13,6 @@ use dust_lpc8xx::syscon::CLOCK_UART0;
 use dust_lpc8xx::syscon::RESET_UART0;
 #[cfg(any(feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
 use dust_lpc8xx::syscon::RESET_USART0;
-use dust_lpc8xx::usart::Usart;
 use dust_lpc8xx::SWM;
 use dust_lpc8xx::SYSCON;
 use dust_lpc8xx::USART;
@@ -21,6 +23,9 @@ fn delay(n: usize) {
         unsafe { asm!("" :::: "volatile") }
     }
 }
+
+#[cfg(feature = "lpc8xx")]
+struct Uart<'a>(&'a mut dust_lpc8xx::usart::Usart);
 
 #[cfg(any(
     feature = "lpc802m001",
@@ -93,7 +98,7 @@ fn init_uart0_syscon(syscon: &mut Syscon) {
     }
 }
 
-fn init_uart() -> &'static mut Usart {
+fn init_uart() -> Uart<'static> {
     let syscon = unsafe { &mut *SYSCON };
     let usart = unsafe { &mut *USART[0] };
 
@@ -102,7 +107,16 @@ fn init_uart() -> &'static mut Usart {
 
     // initialize UART
     usart.init(UART_BRG_DIVISOR);
-    usart
+    Uart(usart)
+}
+
+impl<'a> fmt::Write for Uart<'a> {
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        for b in s.bytes() {
+            self.0.tx(b);
+        }
+        Ok(())
+    }
 }
 
 #[no_mangle]
@@ -118,12 +132,12 @@ pub fn main() {
         syscon.disable_clock(CLOCK_SWM);
     }
 
-    let uart = init_uart();
+    let mut uart = init_uart();
     let d = 1000000;
+    let mut n = 0;
     loop {
-        for c in b"Hello world!\r\n" {
-            uart.tx(*c);
-        }
+        writeln!(uart, "Hello world {}!", n).ok();
+        n += 1;
         delay(d);
     }
 }
