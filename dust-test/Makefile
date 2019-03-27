@@ -59,6 +59,10 @@ RUSTFLAGS += -C link-arg=-L$(LD_DIR)
 RUSTFLAGS += -C link-arg=-Map=$(OUTPUT_DIR)/$(2)_$(1).map
 RUSTFLAGS += -C opt-level=z
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
+#RUSTFLAGS += -Z print-link-args
+
+CARGO = cargo +nightly
+OBJCOPY = arm-none-eabi-objcopy
 
 
 all: $(HEX_FILES)
@@ -69,10 +73,10 @@ $(2):: $(OUTPUT_DIR)/$(2)_$(1).hex
 
 build_$(2)_$(1):
 	RUSTFLAGS="$(RUSTFLAGS)" \
-		cargo build $(CARGOFLAGS) --target $($(2)_TARGET) --features "$(2)" --bin $(1)
+		$(CARGO) build $(CARGOFLAGS) --target $($(2)_TARGET) --features "$(2)" --bin $(1)
 
 $(OUTPUT_DIR)/$(2)_$(1).hex: build_$(2)_$(1)
-	arm-none-eabi-objcopy -O ihex target/$($(2)_TARGET)/release/$(1) "$(OUTPUT_DIR)/$(2)_$(1)".hex
+	$(OBJCOPY) -O ihex target/$($(2)_TARGET)/release/$(1) "$(OUTPUT_DIR)/$(2)_$(1)".hex
 endef
 $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$(eval $(call b_d_rules,$B,$D))))
 
@@ -80,7 +84,7 @@ flash_%: $(OUTPUT_DIR)/%.hex
 	lpc21isp -control "$(OUTPUT_DIR)/$*".hex /dev/ttyUSB0 115200 12000
 
 clean:
-	cargo clean
+	$(CARGO) clean
 	find . \( -name \*~ -o -name \*.rs.bk \) -exec rm {} \;
 
 realclean: clean
