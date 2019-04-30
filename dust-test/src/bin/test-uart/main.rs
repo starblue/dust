@@ -25,6 +25,8 @@ use dust_lpc8xx::syscon::RESET_UART0;
 #[cfg(any(feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
 use dust_lpc8xx::syscon::RESET_USART0;
 use dust_lpc8xx::SWM;
+#[cfg(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x"))]
+use dust_lpc8xx::syscon;
 use dust_lpc8xx::SYSCON;
 use dust_lpc8xx::USART;
 
@@ -46,8 +48,6 @@ const LED: (usize, usize) = (0, 0);
 
 #[cfg(any(feature = "lpc802", feature = "lpc804"))]
 fn enable_gpio_clock() {
-    use dust_lpc8xx::syscon;
-    use dust_lpc8xx::SYSCON;
     unsafe {
         let syscon = &mut *SYSCON;
         syscon.enable_clock(syscon::CLOCK_GPIO0);
@@ -56,8 +56,6 @@ fn enable_gpio_clock() {
 
 #[cfg(feature = "lpc84x")]
 fn enable_gpio_clock() {
-    use dust_lpc8xx::syscon;
-    use dust_lpc8xx::SYSCON;
     unsafe {
         let syscon = &mut *SYSCON;
         syscon.enable_clock(syscon::CLOCK_GPIO0);
