@@ -61,7 +61,7 @@ RUSTFLAGS += -C opt-level=z
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
 #RUSTFLAGS += -Z print-link-args
 
-CARGO = cargo +nightly
+CARGO = cargo
 OBJCOPY = arm-none-eabi-objcopy
 
 
