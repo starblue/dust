@@ -181,7 +181,7 @@ const CLOCK_FREQUENCY: u32 = 8_000_000;
 static mut TIME_MS: u32 = 0;
 
 #[no_mangle]
-pub unsafe fn systick_handler() {
+pub unsafe extern "C" fn systick_handler() {
     TIME_MS += 1;
 }
 
