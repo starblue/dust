@@ -17,6 +17,8 @@ use dust_lpc8xx::gpio;
 use dust_lpc8xx::GPIO;
 
 use dust_lpc8xx::swm::{U0_RXD, U0_TXD};
+#[cfg(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x"))]
+use dust_lpc8xx::syscon;
 use dust_lpc8xx::syscon::Syscon;
 use dust_lpc8xx::syscon::CLOCK_SWM;
 use dust_lpc8xx::syscon::CLOCK_UART0;
@@ -25,8 +27,6 @@ use dust_lpc8xx::syscon::RESET_UART0;
 #[cfg(any(feature = "lpc81x", feature = "lpc82x", feature = "lpc83x"))]
 use dust_lpc8xx::syscon::RESET_USART0;
 use dust_lpc8xx::SWM;
-#[cfg(any(feature = "lpc802", feature = "lpc804", feature = "lpc84x"))]
-use dust_lpc8xx::syscon;
 use dust_lpc8xx::SYSCON;
 use dust_lpc8xx::USART;
 
