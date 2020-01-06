@@ -79,6 +79,14 @@ pub struct Scb {
     pub nsacr: RW<u32>,
 }
 
+pub const SCB_ICSR_ISRPENDING: u32 = 1 << 24;
+pub const SCB_ICSR_PENDSTCLR: u32 = 1 << 25;
+pub const SCB_ICSR_PENDSTSET: u32 = 1 << 26;
+pub const SCB_ICSR_PENDSVCLR: u32 = 1 << 27;
+pub const SCB_ICSR_PENDSVSET: u32 = 1 << 28;
+pub const SCB_ICSR_PENDNMICLR: u32 = 1 << 30;
+pub const SCB_ICSR_PENDNMISET: u32 = 1 << 31;
+
 pub const SCB_CCR_NONBASETHRDENA: u32 = 1 << 0;
 pub const SCB_CCR_USERSETMPEND: u32 = 1 << 1;
 pub const SCB_CCR_UNALIGN_TRP: u32 = 1 << 3;
@@ -89,6 +97,33 @@ pub const SCB_CCR_DC: u32 = 1 << 16;
 pub const SCB_CCR_IC: u32 = 1 << 17;
 pub const SCB_CCR_BP: u32 = 1 << 18;
 
+impl Scb {
+    pub fn clear_pending_pendsv(&mut self) {
+        unsafe {
+            self.icsr.write(SCB_ICSR_PENDSVCLR);
+        }
+    }
+    pub fn set_pending_pendsv(&mut self) {
+        unsafe {
+            self.icsr.write(SCB_ICSR_PENDSVSET);
+        }
+    }
+    pub fn clear_pending_systick(&mut self) {
+        unsafe {
+            self.icsr.write(SCB_ICSR_PENDSTCLR);
+        }
+    }
+    pub fn set_pending_systick(&mut self) {
+        unsafe {
+            self.icsr.write(SCB_ICSR_PENDSTSET);
+        }
+    }
+    pub fn set_pending_nmi(&mut self) {
+        unsafe {
+            self.icsr.write(SCB_ICSR_NMIPENDSET);
+        }
+    }
+}
 
 #[cfg(test)]
 mod test {
