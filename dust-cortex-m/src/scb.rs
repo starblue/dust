@@ -79,15 +79,16 @@ pub struct Scb {
     pub nsacr: RW<u32>,
 }
 
-pub const SCB_CCR_NONBASETHRDENA: u32 = 0 << 0;
-pub const SCB_CCR_USERSETMPEND: u32 = 0 << 1;
-pub const SCB_CCR_UNALIGN_TRP: u32 = 0 << 3;
-pub const SCB_CCR_DIV_0_TRP: u32 = 0 << 4;
-pub const SCB_CCR_BFHFNMIGN: u32 = 0 << 8;
-pub const SCB_CCR_STKALIGN: u32 = 0 << 9;
-pub const SCB_CCR_DC: u32 = 0 << 16;
-pub const SCB_CCR_IC: u32 = 0 << 17;
-pub const SCB_CCR_BP: u32 = 0 << 18;
+pub const SCB_CCR_NONBASETHRDENA: u32 = 1 << 0;
+pub const SCB_CCR_USERSETMPEND: u32 = 1 << 1;
+pub const SCB_CCR_UNALIGN_TRP: u32 = 1 << 3;
+pub const SCB_CCR_DIV_0_TRP: u32 = 1 << 4;
+pub const SCB_CCR_BFHFNMIGN: u32 = 1 << 8;
+pub const SCB_CCR_STKALIGN: u32 = 1 << 9;
+pub const SCB_CCR_DC: u32 = 1 << 16;
+pub const SCB_CCR_IC: u32 = 1 << 17;
+pub const SCB_CCR_BP: u32 = 1 << 18;
+
 
 #[cfg(test)]
 mod test {
