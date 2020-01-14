@@ -118,9 +118,14 @@ impl Scb {
             self.icsr.write(SCB_ICSR_PENDSTSET);
         }
     }
+    pub fn clear_pending_nmi(&mut self) {
+        unsafe {
+            self.icsr.write(SCB_ICSR_PENDNMICLR);
+        }
+    }
     pub fn set_pending_nmi(&mut self) {
         unsafe {
-            self.icsr.write(SCB_ICSR_NMIPENDSET);
+            self.icsr.write(SCB_ICSR_PENDNMISET);
         }
     }
 }
