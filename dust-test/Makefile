@@ -6,6 +6,7 @@ BINARIES += test-plu
 BINARIES += test-all-pins
 BINARIES += test-hardfault-handler
 BINARIES += test-rtos
+BINARIES += test-svcall
 
 DEVICES =
 DEVICES += atsamd09c13 atsamd09d14
@@ -22,6 +23,7 @@ test-plu_DEVICES = lpc804m101
 test-all-pins_DEVICES = lpc802m001 lpc804m101 lpc822 lpc824 lpc845
 test-hardfault-handler_DEVICES = lpc845
 test-rtos_DEVICES = lpc845
+test-svcall_DEVICES = lpc845
 
 LD_DIR = ldscripts
 OUTPUT_DIR = output
