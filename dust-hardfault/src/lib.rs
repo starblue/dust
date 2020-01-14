@@ -2,6 +2,7 @@
 #![feature(asm)]
 #![feature(naked_functions)]
 
+use dust_cortex_m::EXC_RETURN_USE_PSP;
 use dust_cortex_m::SCB;
 
 /// Write a byte to the output device, blocking as necessary.
@@ -83,7 +84,11 @@ unsafe extern "C" fn hard_fault_handler_rust(
     psp: u32,
     callee_saved_regs: &CalleeSavedRegs,
 ) -> ! {
-    let sp = if (lr & (1 << 2)) == 0 { msp } else { psp };
+    let sp = if (lr & EXC_RETURN_USE_PSP) == 0 {
+        msp
+    } else {
+        psp
+    };
     let stack_frame = &*(sp as *const StackFrame);
 
     let scb = &mut *SCB;
