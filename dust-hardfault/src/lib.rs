@@ -107,7 +107,7 @@ unsafe extern "C" fn hard_fault_handler_rust(
     write_reg(b"cfsr:  ", cfsr);
     write_reg(b"bfar:  ", bfar);
     write_reg(b"mmfar: ", mmfar);
-    write_nl();    
+    write_nl();
     write_reg(b"xpsr: ", stack_frame.xpsr);
     write_nl();
     write_reg(b"r0:  ", stack_frame.r0);
@@ -149,7 +149,7 @@ unsafe extern "C" fn hard_fault_handler_rust(
             write_nl();
         }
     }
-    
+
     loop {}
 }
 
