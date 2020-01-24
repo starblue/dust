@@ -3,9 +3,6 @@
 #![no_std]
 #![no_main]
 
-use core::ptr::read_volatile;
-use core::ptr::write_volatile;
-
 use dust_cortex_m::scb::SCB_CCR_STKALIGN;
 use dust_cortex_m::EXC_RETURN_USE_PSP;
 use dust_cortex_m::SCB;
@@ -178,9 +175,7 @@ unsafe extern "C" fn svcall_handler_rust(lr: u32, msp: u32, psp: u32) {
 }
 
 fn write_byte(data: u8) {
-    unsafe {
-        hard_fault_write_byte(data);
-    }
+    hard_fault_write_byte(data);
 }
 
 fn write_bytes(data: &[u8]) {
