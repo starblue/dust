@@ -71,4 +71,5 @@ dust-lpc11xx = { path = "../dust-lpc11xx", version = "0.1.0", optional = true }
 dust-lpc13xx = { path = "../dust-lpc13xx", version = "0.1.0", optional = true }
 dust-stm32f0 = { path = "../dust-stm32f0", version = "0.1.0", optional = true }
 dust-hardfault = { path = "../dust-hardfault", version = "0.1.0", optional = true }
+dust-register = { path = "../dust-register", version = "0.1.0" }
 volatile-register = "0.2.0"

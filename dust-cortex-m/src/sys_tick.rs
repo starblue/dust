@@ -1,16 +1,28 @@
-use volatile_register::{RO, RW};
+use dust_register::Modify;
+use dust_register::Read;
+use dust_register::Write;
+use dust_register::{RO, RW};
 
 #[repr(C)]
 /// Nested Vectored Interrupt Controller
-pub struct SysTick {
+pub struct SysTick;
+impl SysTick {
     /// Control and Status Register
-    pub csr: RW<u32>,
+    pub const fn csr(&self) -> RW<u32> {
+        RW::at(0xE000_E010)
+    }
     /// Reload Value Register
-    pub rvr: RW<u32>,
+    pub const fn rvr(&self) -> RW<u32> {
+        RW::at(0xE000_E014)
+    }
     /// Current Value Register
-    pub cvr: RW<u32>,
+    pub const fn cvr(&self) -> RW<u32> {
+        RW::at(0xE000_E018)
+    }
     /// Calibration value register
-    pub calib: RO<u32>,
+    pub const fn calib(&self) -> RO<u32> {
+        RO::at(0xE000_E010)
+    }
 }
 
 pub const CSR_ENABLE: u32 = 1 << 0;
@@ -26,26 +38,26 @@ impl SysTick {
     pub fn init(&mut self, reload_value: u32) {
         unsafe {
             assert!(reload_value < 1 << 24);
-            self.rvr.write(reload_value);
+            self.rvr().write(reload_value);
             // Set counter to zero by writing any value
-            self.cvr.write(0);
+            self.cvr().write(0);
             self.enable();
         }
     }
     pub fn calib_tenms(&self) -> u32 {
-        self.calib.read() & CALIB_TENMS_MASK
+        unsafe { self.calib().read() & CALIB_TENMS_MASK }
     }
     pub unsafe fn enable(&mut self) {
-        self.csr.modify(|w| w | CSR_ENABLE);
+        self.csr().modify(|w| w | CSR_ENABLE);
     }
     pub unsafe fn disable(&mut self) {
-        self.csr.modify(|w| w & !CSR_ENABLE);
+        self.csr().modify(|w| w & !CSR_ENABLE);
     }
     pub unsafe fn enable_tickint(&mut self) {
-        self.csr.modify(|w| w | CSR_TICKINT);
+        self.csr().modify(|w| w | CSR_TICKINT);
     }
     pub unsafe fn disable_tickint(&mut self) {
-        self.csr.modify(|w| w & !CSR_TICKINT);
+        self.csr().modify(|w| w & !CSR_TICKINT);
     }
 }
 

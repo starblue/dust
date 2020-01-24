@@ -4,6 +4,8 @@
 
 use core::ptr::read_volatile;
 
+use dust_register::Write;
+
 use dust_cortex_m::sys_tick;
 use dust_cortex_m::SYS_TICK;
 
@@ -193,16 +195,16 @@ fn get_time_ms() -> u32 {
 pub fn main() {
     // set up systick interrupt
     unsafe {
-        let sys_tick = &mut *SYS_TICK;
+        let sys_tick = SYS_TICK;
 
         // set reload value for one tick per millisecond
-        sys_tick.rvr.write(CLOCK_FREQUENCY / 1000);
+        sys_tick.rvr().write(CLOCK_FREQUENCY / 1000);
 
         // reset timer value
-        sys_tick.cvr.write(0);
+        sys_tick.cvr().write(0);
 
         // enable timer and timer interrupt
-        sys_tick.csr.write(
+        sys_tick.csr().write(
             sys_tick::CSR_ENABLE  // enable timer
                    | sys_tick::CSR_TICKINT  // enable timer interrupt
                    | sys_tick::CSR_CLKSOURCE, // use core clock

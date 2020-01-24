@@ -25,4 +25,5 @@ v8m = []
 [dependencies]
 dust = { path = "../dust", version = "0.1.0" }
 dust-runtime = { path = "../dust-runtime", version = "0.1.0" }
+dust-register = { path = "../dust-register", version = "0.1.0" }
 volatile-register = "0.2.0"
