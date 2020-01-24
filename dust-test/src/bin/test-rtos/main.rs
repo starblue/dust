@@ -1,5 +1,6 @@
 #![feature(asm)]
 #![feature(naked_functions)]
+#![feature(const_in_array_repeat_expressions)]
 #![no_std]
 #![no_main]
 
@@ -155,11 +156,17 @@ enum TaskState {
     SleepingUntil(OsTime),
 }
 
+struct IntervalTimer {
+    interval: OsTime,
+    last_wake_time: OsTime,
+}
+
 struct Task {
     state: TaskState,
     psp: u32,
     stack_bottom: u32,
     stack_top: u32,
+    interval_timer: Option<IntervalTimer>,
 }
 impl Task {
     pub fn new(f: fn(), stack: &mut [u64]) -> Task {
@@ -173,11 +180,13 @@ impl Task {
             write_volatile(fp.offset(STACK_FRAME_XPSR_OFFSET), XPSR_THUMB);
         }
         let state = TaskState::Runnable;
+        let interval_timer = None;
         Task {
             state,
             psp,
             stack_bottom,
             stack_top,
+            interval_timer,
         }
     }
 }
@@ -185,7 +194,7 @@ impl Task {
 const MAX_TASKS: usize = 2;
 
 struct Scheduler {
-    curr_task_index: usize,
+    current_task_index: usize,
     tasks: [Option<Task>; MAX_TASKS],
     time: OsTime,
     next_wake_time: Option<OsTime>,
@@ -193,8 +202,8 @@ struct Scheduler {
 impl Scheduler {
     const fn new() -> Scheduler {
         Scheduler {
-            curr_task_index: 0,
-            tasks: [None, None],
+            current_task_index: 0,
+            tasks: [None; MAX_TASKS],
             time: Wrapping(0),
             next_wake_time: None,
         }
@@ -204,9 +213,34 @@ impl Scheduler {
             self.tasks[i] = Some(task);
         }
     }
-    fn context_switch(&mut self, curr_psp: u32) -> u32 {
-        if let Some(task) = &mut self.tasks[self.curr_task_index] {
-            task.psp = curr_psp;
+    fn set_interval(&mut self, interval: OsTime) {
+        let last_wake_time = self.get_time();
+        if let Some(current_task) = &mut self.tasks[self.current_task_index] {
+            current_task.interval_timer = Some(IntervalTimer {
+                interval,
+                last_wake_time,
+            });
+        }
+    }
+    fn wait_for_next_interval(&mut self) {
+        if let Some(current_task) = &mut self.tasks[self.current_task_index] {
+            if let Some(it) = &mut current_task.interval_timer {
+                let next_wake_time = it.last_wake_time + it.interval;
+                it.last_wake_time = next_wake_time;
+                current_task.state = TaskState::SleepingUntil(next_wake_time);
+                self.trigger_scheduler();
+            }
+        }
+    }
+    fn sleep(&mut self, d: OsTime) {
+        if let Some(current_task) = &mut self.tasks[self.current_task_index] {
+            current_task.state = TaskState::SleepingUntil(self.time + d);
+            self.trigger_scheduler();
+        }
+    }
+    fn context_switch(&mut self, current_psp: u32) -> u32 {
+        if let Some(task) = &mut self.tasks[self.current_task_index] {
+            task.psp = current_psp;
         } else {
             // the current task vanished (should never happen)
         }
@@ -221,7 +255,7 @@ impl Scheduler {
                 if let Some(task) = &mut self.tasks[i] {
                     match task.state {
                         TaskState::Runnable => {
-                            self.curr_task_index = i;
+                            self.current_task_index = i;
                             return task.psp;
                         }
                         TaskState::SleepingUntil(wake_time) => {
@@ -229,7 +263,7 @@ impl Scheduler {
                                 // wake up
                                 // TODO check for late wake up?
                                 task.state = TaskState::Runnable;
-                                self.curr_task_index = i;
+                                self.current_task_index = i;
                                 return task.psp;
                             } else {
                                 if let Some(next_wake_time) = self.next_wake_time {
@@ -256,9 +290,12 @@ impl Scheduler {
             write_volatile(&mut self.time, time + Wrapping(1));
         }
         if Some(time) == self.next_wake_time {
-            let scb = unsafe { &mut *SCB };
-            scb.set_pending_pendsv();
+            self.trigger_scheduler();
         }
+    }
+    fn trigger_scheduler(&mut self) {
+        let scb = unsafe { &mut *SCB };
+        scb.set_pending_pendsv();
     }
     fn get_time(&self) -> OsTime {
         unsafe { read_volatile(&self.time) }
@@ -285,10 +322,48 @@ static mut TIME_MS: u32 = 0;
 #[no_mangle]
 pub unsafe extern "C" fn systick_handler() {
     TIME_MS += 1;
+    SCHEDULER.tick();
 }
 
 fn get_time_ms() -> u32 {
     unsafe { read_volatile(&TIME_MS) }
+}
+
+/// SVCall handler.
+///
+/// This implementation uses an assembly wrapper to save lr, msp and psp
+/// and then jumps to svcall_handler_rust to do the main work.
+#[no_mangle]
+#[naked]
+pub unsafe extern "C" fn svcall_handler() {
+    asm!("mov r0, lr
+          mrs r1, msp
+          mrs r2, psp
+          b svcall_handler_rust"
+         :
+         :
+         :
+         : "volatile"
+    )
+}
+
+#[repr(C)]
+struct StackFrame {
+    r0: u32,
+    r1: u32,
+    r2: u32,
+    r3: u32,
+    r12: u32,
+    lr: u32,
+    pc: u32,
+    xpsr: u32,
+}
+
+#[no_mangle]
+unsafe extern "C" fn svcall_handler_rust(lr: u32, msp: u32, psp: u32) {
+    let sp = if (lr & (1 << 2)) == 0 { msp } else { psp };
+    let stack_frame = &*(sp as *const StackFrame);
+    // TODO implement svc handler
 }
 
 #[naked]
