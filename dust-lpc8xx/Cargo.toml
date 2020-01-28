@@ -33,4 +33,5 @@ lpc84x = []
 [dependencies]
 dust = { path = "../dust", version = "0.1.0" }
 dust-cortex-m = { path = "../dust-cortex-m", version = "0.1.0", features = ["cortex-m0plus"] }
+dust-register = { path = "../dust-register", version = "0.1.0" }
 volatile-register = "0.2.0"

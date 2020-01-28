@@ -88,7 +88,7 @@ fn get_gpio_port() -> gpio::Port<'static> {
 }
 
 #[cfg(feature = "lpc8xx")]
-struct Uart<'a>(&'a mut dust_lpc8xx::usart::Usart);
+struct Uart<'a>(&'a dust_lpc8xx::usart::Usart);
 
 #[cfg(any(
     feature = "lpc802m001",
@@ -163,7 +163,7 @@ fn init_uart0_syscon(syscon: &mut Syscon) {
 
 fn init_uart() -> Uart<'static> {
     let syscon = unsafe { &mut *SYSCON };
-    let usart = unsafe { &mut *USART[0] };
+    let usart = &USART[0];
 
     // Configure SYSCON for USART0
     init_uart0_syscon(syscon);

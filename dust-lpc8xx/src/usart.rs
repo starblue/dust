@@ -1,19 +1,52 @@
-use volatile_register::{RO, RW, WO};
+use dust_register::Read;
+use dust_register::Write;
+use dust_register::{RO, RW, WO};
 
 #[repr(C)]
 pub struct Usart {
-    pub cfg: RW<u32>,
-    pub ctl: RW<u32>,
-    pub stat: RW<u32>,
-    pub intenset: RW<u32>,
-    pub intenclr: WO<u32>,
-    pub rxdat: RO<u32>,
-    pub rxdatstat: RO<u32>,
-    pub txdat: RW<u32>,
-    pub brg: RW<u32>,
-    pub intstat: RO<u32>,
-    pub osr: RW<u32>,
-    pub addr: RW<u32>,
+    address: usize,
+}
+
+impl Usart {
+    pub const fn at(address: usize) -> Usart {
+        Usart { address }
+    }
+    pub const fn cfg(&self) -> RW<u32> {
+        RW::at(self.address + 0)
+    }
+    pub const fn ctl(&self) -> RW<u32> {
+        RW::at(self.address + 4)
+    }
+    pub const fn stat(&self) -> RW<u32> {
+        RW::at(self.address + 8)
+    }
+    pub const fn intenset(&self) -> RW<u32> {
+        RW::at(self.address + 12)
+    }
+    pub const fn intenclr(&self) -> WO<u32> {
+        WO::at(self.address + 16)
+    }
+    pub const fn rxdat(&self) -> RO<u32> {
+        RO::at(self.address + 20)
+    }
+    pub const fn rxdatstat(&self) -> RO<u32> {
+        RO::at(self.address + 24)
+    }
+    pub const fn txdat(&self) -> RW<u32> {
+        RW::at(self.address + 28)
+    }
+    pub const fn brg(&self) -> RW<u32> {
+        RW::at(self.address + 32)
+    }
+    pub const fn intstat(&self) -> RO<u32> {
+        RO::at(self.address + 36)
+    }
+    pub const fn osr(&self) -> RW<u32> {
+        RW::at(self.address + 40)
+    }
+    pub const fn addr(&self) -> RW<u32> {
+        RW::at(self.address + 44)
+    }
 }
 
 pub const CFG_ENABLE: u32 = 1 << 0;
@@ -95,25 +128,25 @@ impl Usart {
     pub fn init(&self, divisor: u32) {
         unsafe {
             let config = CFG_DATALEN_8 | CFG_PARITY_NONE | CFG_STOPLEN_1;
-            self.brg.write(divisor - 1);
-            self.cfg.write(CFG_ENABLE | config);
+            self.brg().write(divisor - 1);
+            self.cfg().write(CFG_ENABLE | config);
         }
     }
     pub fn tx_ready(&self) -> bool {
-        (self.stat.read() & STAT_TXRDY) != 0
+        unsafe { (self.stat().read() & STAT_TXRDY) != 0 }
     }
     pub fn rx_ready(&self) -> bool {
-        (self.stat.read() & STAT_RXRDY) != 0
+        unsafe { (self.stat().read() & STAT_RXRDY) != 0 }
     }
     pub fn tx(&self, b: u8) {
         while !self.tx_ready() {}
         unsafe {
-            self.txdat.write(b as u32);
+            self.txdat().write(b as u32);
         }
     }
     pub fn rx(&self) -> u8 {
         while !self.rx_ready() {}
-        self.rxdat.read() as u8
+        unsafe { self.rxdat().read() as u8 }
     }
 }
 
@@ -125,21 +158,21 @@ mod test {
         let usart1 = unsafe { &mut *::USART1 };
         let usart2 = unsafe { &mut *::USART2 };
 
-        assert_eq!(address(&usart0.cfg), 0x4006_4000);
-        assert_eq!(address(&usart0.ctl), 0x4006_4004);
-        assert_eq!(address(&usart0.stat), 0x4006_4008);
-        assert_eq!(address(&usart0.intenset), 0x4006_400c);
-        assert_eq!(address(&usart0.intenclr), 0x4006_4010);
-        assert_eq!(address(&usart0.rxdat), 0x4006_4014);
-        assert_eq!(address(&usart0.rxdatstat), 0x4006_4018);
-        assert_eq!(address(&usart0.txdat), 0x4006_401c);
-        assert_eq!(address(&usart0.brg), 0x4006_4020);
-        assert_eq!(address(&usart0.intstat), 0x4006_4024);
-        assert_eq!(address(&usart0.osr), 0x4006_4028);
-        assert_eq!(address(&usart0.addr), 0x4006_402c);
+        assert_eq!(address(&usart0.cfg()), 0x4006_4000);
+        assert_eq!(address(&usart0.ctl()), 0x4006_4004);
+        assert_eq!(address(&usart0.stat()), 0x4006_4008);
+        assert_eq!(address(&usart0.intenset()), 0x4006_400c);
+        assert_eq!(address(&usart0.intenclr()), 0x4006_4010);
+        assert_eq!(address(&usart0.rxdat()), 0x4006_4014);
+        assert_eq!(address(&usart0.rxdatstat()), 0x4006_4018);
+        assert_eq!(address(&usart0.txdat()), 0x4006_401c);
+        assert_eq!(address(&usart0.brg()), 0x4006_4020);
+        assert_eq!(address(&usart0.intstat()), 0x4006_4024);
+        assert_eq!(address(&usart0.osr()), 0x4006_4028);
+        assert_eq!(address(&usart0.addr()), 0x4006_402c);
 
-        assert_eq!(address(&usart1.cfg), 0x4006_8000);
-        assert_eq!(address(&usart2.cfg), 0x4006_c000);
+        assert_eq!(address(&usart1.cfg()), 0x4006_8000);
+        assert_eq!(address(&usart2.cfg()), 0x4006_c000);
     }
 
     fn address<T>(r: *const T) -> usize {

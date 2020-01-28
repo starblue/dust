@@ -97,9 +97,9 @@ fn init_uart0_syscon(syscon: &mut Syscon) {
     }
 }
 
-fn init_uart() -> &'static mut Usart {
+fn init_uart() -> &'static Usart {
     let syscon = unsafe { &mut *SYSCON };
-    let usart = unsafe { &mut *USART[0] };
+    let usart = &USART[0];
 
     // Configure SYSCON for USART0
     init_uart0_syscon(syscon);
@@ -111,7 +111,7 @@ fn init_uart() -> &'static mut Usart {
 
 #[no_mangle]
 extern "C" fn hard_fault_write_byte(b: u8) {
-    let uart = unsafe { &mut *USART[0] };
+    let uart = &USART[0];
     uart.tx(b);
 }
 
