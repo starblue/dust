@@ -1,5 +1,5 @@
 #![no_std]
-#![feature(asm)]
+#![feature(llvm_asm)]
 #![feature(naked_functions)]
 
 use dust_cortex_m::EXC_RETURN_USE_PSP;
@@ -33,23 +33,24 @@ pub static HARD_FAULT_HANDLER: unsafe extern "C" fn() = hard_fault_handler;
 #[no_mangle]
 #[naked]
 pub unsafe extern "C" fn hard_fault_handler() {
-    asm!("mov r0, lr
-          mrs r1, msp
-          mrs r2, psp
-          ldr r3, =EMERGENCY_STACK + 256
-          mov sp, r3
-          push {r4-r7}
-          mov r4, r8
-          mov r5, r9
-          mov r6, r10
-          mov r7, r11
-          push {r4-r7}
-          mov r3, sp
-          b hard_fault_handler_rust"
-         :
-         :
-         :
-         : "volatile"
+    llvm_asm!(
+        "mov r0, lr
+         mrs r1, msp
+         mrs r2, psp
+         ldr r3, =EMERGENCY_STACK + 256
+         mov sp, r3
+         push {r4-r7}
+         mov r4, r8
+         mov r5, r9
+         mov r6, r10
+         mov r7, r11
+         push {r4-r7}
+         mov r3, sp
+         b hard_fault_handler_rust"
+        :
+        :
+        :
+        : "volatile"
     )
 }
 

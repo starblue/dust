@@ -1,4 +1,4 @@
-#![feature(asm)]
+#![feature(llvm_asm)]
 #![feature(naked_functions)]
 #![no_std]
 #![no_main]
@@ -27,7 +27,7 @@ use dust_lpc8xx::USART;
 fn delay(n: usize) {
     for _ in 0..n {
         // Make sure the loop is not optimized away
-        unsafe { asm!("" :::: "volatile") }
+        unsafe { llvm_asm!("" :::: "volatile") }
     }
 }
 
@@ -127,14 +127,15 @@ extern "C" fn hard_fault_write_byte(b: u8) {
 #[no_mangle]
 #[naked]
 pub unsafe extern "C" fn svcall_handler() {
-    asm!("mov r0, lr
-          mrs r1, msp
-          mrs r2, psp
-          b svcall_handler_rust"
-         :
-         :
-         :
-         : "volatile"
+    llvm_asm!(
+        "mov r0, lr
+         mrs r1, msp
+         mrs r2, psp
+         b svcall_handler_rust"
+        :
+        :
+        :
+        : "volatile"
     )
 }
 
@@ -268,11 +269,12 @@ pub fn main() {
         let in3 = i + 4;
         let out: u32;
         unsafe {
-            asm!("svc ${1}"
-                 : "={r0}"(out)
-                 : "i"(N), "{r0}"(in0), "{r1}"(in1), "{r2}"(in2), "{r3}"(in3)
-                 :
-                 : "volatile");
+            llvm_asm!(
+                "svc ${1}"
+                : "={r0}"(out)
+                : "i"(N), "{r0}"(in0), "{r1}"(in1), "{r2}"(in2), "{r3}"(in3)
+                :
+                : "volatile");
         }
         write_reg(b"result: ", out);
         i += 1;

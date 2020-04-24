@@ -36,7 +36,7 @@
 //  32  PIO0_16  PIO0_16  PIO0_17  PIO0_17
 //  33  VSS      VSS      VSS      VSS
 
-#![feature(asm)]
+#![feature(llvm_asm)]
 #![no_std]
 #![no_main]
 
@@ -54,7 +54,7 @@ use dust_lpc8xx::GPIO;
 fn delay(n: usize) {
     for _ in 0..n {
         // Make sure the loop is not optimized away
-        unsafe { asm!("" :::: "volatile") }
+        unsafe { llvm_asm!("" :::: "volatile") }
     }
 }
 

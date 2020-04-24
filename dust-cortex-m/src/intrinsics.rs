@@ -13,11 +13,7 @@
 pub fn rbit(a: u32) -> u32 {
     let result: u32;
     unsafe {
-        asm!("rbit $0, $1"
-             : "=r"(result)
-             : "r"(a)
-             :
-             : );
+        llvm_asm!("rbit $0, $1" : "=r"(result) : "r"(a) : : );
     }
     result
 }
@@ -46,7 +42,7 @@ pub fn rbit(a: u32) -> u32 {
 #[inline(always)]
 pub fn dmb() {
     unsafe {
-        asm!("dmb"
+        llvm_asm!("dmb"
              :
              :
              : "memory"
@@ -58,7 +54,7 @@ pub fn dmb() {
 #[inline(always)]
 pub fn dsb() {
     unsafe {
-        asm!("dsb"
+        llvm_asm!("dsb"
              :
              :
              : "memory"
@@ -70,7 +66,7 @@ pub fn dsb() {
 #[inline(always)]
 pub fn isb() {
     unsafe {
-        asm!("isb"
+        llvm_asm!("isb"
              :
              :
              : "memory"
@@ -82,7 +78,7 @@ pub fn isb() {
 #[inline(always)]
 pub fn nop() {
     unsafe {
-        asm!("nop"
+        llvm_asm!("nop"
              :
              :
              :
@@ -103,7 +99,7 @@ pub fn nop() {
 #[inline(always)]
 pub fn sev() {
     unsafe {
-        asm!("sev"
+        llvm_asm!("sev"
              :
              :
              : "memory"
@@ -118,7 +114,7 @@ pub fn sev() {
 #[inline(always)]
 pub fn wfe() {
     unsafe {
-        asm!("wfe"
+        llvm_asm!("wfe"
              :
              :
              : "memory"
@@ -130,7 +126,7 @@ pub fn wfe() {
 #[inline(always)]
 pub fn wfi() {
     unsafe {
-        asm!("wfi"
+        llvm_asm!("wfi"
              :
              :
              : "memory"
@@ -144,7 +140,7 @@ pub fn wfi() {
 #[inline(always)]
 pub fn r#yield() {
     unsafe {
-        asm!("yield"
+        llvm_asm!("yield"
              :
              :
              :
@@ -158,7 +154,7 @@ pub fn r#yield() {
 #[inline(always)]
 pub fn bkpt() {
     unsafe {
-        asm!("bkpt"
+        llvm_asm!("bkpt"
              :
              :
              :
@@ -170,7 +166,7 @@ pub fn bkpt() {
 #[inline(always)]
 pub fn udf() {
     unsafe {
-        asm!("udf"
+        llvm_asm!("udf"
              :
              :
              :
@@ -184,7 +180,7 @@ pub fn udf() {
 #[inline(always)]
 pub fn cpsie_i() {
     unsafe {
-        asm!("cpsie i"
+        llvm_asm!("cpsie i"
              :
              :
              : "memory"
@@ -196,7 +192,7 @@ pub fn cpsie_i() {
 #[inline(always)]
 pub fn cpsid_i() {
     unsafe {
-        asm!("cpsid i"
+        llvm_asm!("cpsid i"
              :
              :
              : "memory"
@@ -209,7 +205,7 @@ pub fn cpsid_i() {
 #[inline(always)]
 pub fn cpsie_f() {
     unsafe {
-        asm!("cpsie f"
+        llvm_asm!("cpsie f"
              :
              :
              : "memory"
@@ -222,7 +218,7 @@ pub fn cpsie_f() {
 #[inline(always)]
 pub fn cpsid_f() {
     unsafe {
-        asm!("cpsid f"
+        llvm_asm!("cpsid f"
              :
              :
              : "memory"
