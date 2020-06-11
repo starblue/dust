@@ -1,4 +1,4 @@
-#![feature(llvm_asm)]
+#![feature(asm)]
 #![no_std]
 #![no_main]
 
@@ -45,7 +45,7 @@ use dust_stm32f0::GPIO;
 fn delay(n: usize) {
     for _ in 0..n {
         // Make sure the loop is not optimized away
-        unsafe { llvm_asm!("" :::: "volatile") }
+        unsafe { asm!("") }
     }
 }
 

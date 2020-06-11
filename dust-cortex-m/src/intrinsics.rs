@@ -13,7 +13,7 @@
 pub fn rbit(a: u32) -> u32 {
     let result: u32;
     unsafe {
-        llvm_asm!("rbit $0, $1" : "=r"(result) : "r"(a) : : );
+        asm!("rbit {}, {}", lateout(reg) result, in(reg) a, options(pure, nomem));
     }
     result
 }
@@ -42,11 +42,7 @@ pub fn rbit(a: u32) -> u32 {
 #[inline(always)]
 pub fn dmb() {
     unsafe {
-        llvm_asm!("dmb"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("dmb");
     }
 }
 
@@ -54,11 +50,7 @@ pub fn dmb() {
 #[inline(always)]
 pub fn dsb() {
     unsafe {
-        llvm_asm!("dsb"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("dsb");
     }
 }
 
@@ -66,11 +58,7 @@ pub fn dsb() {
 #[inline(always)]
 pub fn isb() {
     unsafe {
-        llvm_asm!("isb"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("isb");
     }
 }
 
@@ -78,11 +66,7 @@ pub fn isb() {
 #[inline(always)]
 pub fn nop() {
     unsafe {
-        llvm_asm!("nop"
-             :
-             :
-             :
-             : "volatile");
+        asm!("nop", options(nomem));
     }
 }
 
@@ -99,11 +83,7 @@ pub fn nop() {
 #[inline(always)]
 pub fn sev() {
     unsafe {
-        llvm_asm!("sev"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("sev", options(nomem));
     }
 }
 
@@ -114,11 +94,7 @@ pub fn sev() {
 #[inline(always)]
 pub fn wfe() {
     unsafe {
-        llvm_asm!("wfe"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("wfe", options(nomem));
     }
 }
 
@@ -126,11 +102,7 @@ pub fn wfe() {
 #[inline(always)]
 pub fn wfi() {
     unsafe {
-        llvm_asm!("wfi"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("wfi", options(nomem));
     }
 }
 
@@ -140,11 +112,7 @@ pub fn wfi() {
 #[inline(always)]
 pub fn r#yield() {
     unsafe {
-        llvm_asm!("yield"
-             :
-             :
-             :
-             : "volatile");
+        asm!("yield", options(nomem));
     }
 }
 
@@ -154,11 +122,7 @@ pub fn r#yield() {
 #[inline(always)]
 pub fn bkpt() {
     unsafe {
-        llvm_asm!("bkpt"
-             :
-             :
-             :
-             : "volatile");
+        asm!("bkpt");
     }
 }
 
@@ -166,11 +130,7 @@ pub fn bkpt() {
 #[inline(always)]
 pub fn udf() {
     unsafe {
-        llvm_asm!("udf"
-             :
-             :
-             :
-             : "volatile");
+        asm!("udf", options(noreturn));
     }
 }
 
@@ -180,11 +140,7 @@ pub fn udf() {
 #[inline(always)]
 pub fn cpsie_i() {
     unsafe {
-        llvm_asm!("cpsie i"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("cpsie i");
     }
 }
 
@@ -192,11 +148,7 @@ pub fn cpsie_i() {
 #[inline(always)]
 pub fn cpsid_i() {
     unsafe {
-        llvm_asm!("cpsid i"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("cpsid i");
     }
 }
 
@@ -205,11 +157,7 @@ pub fn cpsid_i() {
 #[inline(always)]
 pub fn cpsie_f() {
     unsafe {
-        llvm_asm!("cpsie f"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("cpsie f");
     }
 }
 
@@ -218,10 +166,6 @@ pub fn cpsie_f() {
 #[inline(always)]
 pub fn cpsid_f() {
     unsafe {
-        llvm_asm!("cpsid f"
-             :
-             :
-             : "memory"
-             : "volatile");
+        asm!("cpsid f");
     }
 }

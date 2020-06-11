@@ -1,4 +1,4 @@
-#![feature(llvm_asm)]
+#![feature(asm)]
 #![feature(naked_functions)]
 #![feature(const_in_array_repeat_expressions)]
 #![no_std]
@@ -35,7 +35,7 @@ use dust_lpc8xx::USART;
 fn delay(n: usize) {
     for _ in 0..n {
         // Make sure the loop is not optimized away
-        unsafe { llvm_asm!("" :::: "volatile") }
+        unsafe { asm!("") }
     }
 }
 
@@ -336,15 +336,12 @@ fn get_time_ms() -> u32 {
 #[no_mangle]
 #[naked]
 pub unsafe extern "C" fn svcall_handler() {
-    llvm_asm!(
+    asm!(
         "mov r0, lr
          mrs r1, msp
          mrs r2, psp
-         b svcall_handler_rust"
-        :
-        :
-        :
-        : "volatile"
+         b svcall_handler_rust",
+        options(noreturn),
     )
 }
 
@@ -395,37 +392,32 @@ pub unsafe extern "C" fn pendsv_handler() {
     //    0    R4 <- saved PSP when task is not active
     //
     let prev_psp: u32;
-    llvm_asm!(
+    asm!(
         "mrs     r0, psp
          subs    r0, #32
-         stmia   r0!, {r4-r7}
+         stmia   r0!, {{r4-r7}}
          mov     r4, r8
          mov     r5, r9
          mov     r6, r10
          mov     r7, r11
-         stmia   r0!, {r4-r7}
-         subs    r0, #32"
-        : "={r0}"(prev_psp)
-        :
-        :
-        : "volatile"
+         stmia   r0!, {{r4-r7}}
+         subs    r0, #32",
+        out("r0") prev_psp,
     );
     let next_psp = SCHEDULER.context_switch(prev_psp);
-    llvm_asm!(
+    asm!(
         "adds    r0, #16
-         ldmia   r0!, {r4-r7}
+         ldmia   r0!, {{r4-r7}}
          mov     r8, r4
          mov     r9, r5
          mov     r10, r6
          mov     r11, r7
          msr     psp, r0
          subs    r0, #32
-         ldmia   r0!, {r4-r7}
-         bx      lr"
-        :
-        : "{r0}"(next_psp)
-        :
-        : "volatile"
+         ldmia   r0!, {{r4-r7}}
+         bx      lr",
+        in("r0") next_psp,
+        options(noreturn)
     );
 }
 
