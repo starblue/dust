@@ -1,6 +1,5 @@
 #![feature(asm)]
 #![feature(naked_functions)]
-#![feature(const_in_array_repeat_expressions)]
 #![no_std]
 #![no_main]
 
@@ -203,7 +202,7 @@ impl Scheduler {
     const fn new() -> Scheduler {
         Scheduler {
             current_task_index: 0,
-            tasks: [None; MAX_TASKS],
+            tasks: [None, None],
             time: Wrapping(0),
             next_wake_time: None,
         }
