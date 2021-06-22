@@ -5,6 +5,7 @@ BINARIES += test-uart
 BINARIES += test-plu
 BINARIES += test-all-pins
 BINARIES += test-hardfault-handler
+BINARIES += test-context-switch
 BINARIES += test-rtos
 BINARIES += test-svcall
 
@@ -22,6 +23,7 @@ test-uart_DEVICES = lpc802m001 lpc802m011 lpc804m101 lpc804m111 lpc810 lpc812 lp
 test-plu_DEVICES = lpc804m101
 test-all-pins_DEVICES = lpc802m001 lpc804m101 lpc822 lpc824 lpc845
 test-hardfault-handler_DEVICES = lpc845
+test-context-switch_DEVICES = lpc845
 test-rtos_DEVICES = lpc845
 test-svcall_DEVICES = lpc845
 
@@ -62,6 +64,7 @@ RUSTFLAGS += -C link-arg=-T$(LD_DIR)/$(2).ld
 RUSTFLAGS += -C link-arg=-L$(LD_DIR)
 RUSTFLAGS += -C link-arg=-Map=$(OUTPUT_DIR)/$(2)_$(1).map
 RUSTFLAGS += -C opt-level=z
+RUSTFLAGS += --emit asm
 #RUSTFLAGS += --emit asm,llvm-bc,llvm-ir,obj,metadata,link,dep-info,mir
 #RUSTFLAGS += -Z print-link-args
 
