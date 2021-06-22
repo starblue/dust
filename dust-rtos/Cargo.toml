@@ -1,0 +1,26 @@
+[package]
+edition = "2018"
+name = "dust-rtos"
+version = "0.1.0"
+authors = ["Juergen Stuber <juergen@jstuber.net>"]
+description = "RTOS"
+
+[features]
+cortex-m0 = ["v6m"]
+cortex-m0plus = ["v6m"]
+cortex-m3 = ["v7m"]
+cortex-m4 = ["v7m"]
+cortex-m7 = ["v7m"]
+cortex-m23 = ["v8m_base"]
+cortex-m33 = ["v8m_main"]
+
+v8m_base = ["v8m"]
+v8m_main = ["v8m"]
+
+v6m = []
+v7m = []
+v8m = []
+
+[dependencies]
+dust-cortex-m = { path = "../dust-cortex-m", version = "0.1.0" }
+dust-register = { path = "../dust-register", version = "0.1.0" }
