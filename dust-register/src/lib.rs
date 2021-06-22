@@ -35,6 +35,13 @@ pub trait Modify<T: Copy> {
         F: FnOnce(T) -> T;
 }
 
+/// Trait to get a pointer to a register
+///
+/// For checking the address and for special ops.
+pub trait Ptr<T> {
+    fn ptr(&self) -> *mut T;
+}
+
 /// A register that is readable and writable.
 pub struct RW<T: Copy> {
     address: usize,
@@ -52,7 +59,7 @@ where
         }
     }
 }
-impl<T> RW<T>
+impl<T> Ptr<T> for RW<T>
 where
     T: Copy,
 {
@@ -93,6 +100,16 @@ where
         RO(RW::at(address))
     }
 }
+
+impl<T> Ptr<T> for RO<T>
+where
+    T: Copy,
+{
+    fn ptr(&self) -> *mut T {
+        self.0.ptr()
+    }
+}
+
 impl<T> Read<T> for RO<T>
 where
     T: Copy,
@@ -113,6 +130,16 @@ where
         WO(RW::at(address))
     }
 }
+
+impl<T> Ptr<T> for WO<T>
+where
+    T: Copy,
+{
+    fn ptr(&self) -> *mut T {
+        self.0.ptr()
+    }
+}
+
 impl<T> Write<T> for WO<T>
 where
     T: Copy,
