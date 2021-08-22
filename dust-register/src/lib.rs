@@ -7,8 +7,8 @@
 ///! to avoid ever having a reference to the register.
 ///!
 ///! A reference would allow the compiler to add spurious reads,
-///! though so far that doesn't seem to happen, I'm not aware of a case
-///! where the compiler has been caught doing this completely unprovoked.
+///! which together with volatile access would result in undefined behavior.
+///!
 ///! TODO Link to relevant discussions
 ///! TODO document usage
 use core::marker::PhantomData;
@@ -30,6 +30,9 @@ pub trait Write<T: Copy> {
 /// Types of registers that can be modified.
 pub trait Modify<T: Copy> {
     /// Performs a volatile read-modify-write of the register.
+    ///
+    /// Note that `modify` is not atomic,
+    /// so you need to prevent race conditions.
     unsafe fn modify<F>(&self, f: F)
     where
         F: FnOnce(T) -> T;
