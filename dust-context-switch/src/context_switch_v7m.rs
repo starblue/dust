@@ -27,18 +27,13 @@ pub unsafe extern "C" fn pendsv_handler() {
     //    4    R5
     //    0    R4 <- saved PSP when task is not active
     //
-    let prev_psp: u32;
     asm!(
         "mrs     r0, psp
-         stmdb   r0!, {{r4-r11}}".
-        out("r0") prev_psp,
-    );
-    let next_psp = dust_switch_context(prev_psp);
-    asm!(
-        "ldmia   r0!, {{r4-r11}}
+         stmdb   r0!, {{r4-r11}}
+         bl      dust_switch_context
+         ldmia   r0!, {{r4-r11}}
          msr     psp, r0
          bx      lr",
-        in("r0") next_psp,
         options(noreturn)
     );
 }

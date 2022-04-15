@@ -1,4 +1,3 @@
-#![feature(asm)]
 #![feature(naked_functions)]
 #![feature(const_in_array_repeat_expressions)]
 #![no_std]
@@ -230,7 +229,6 @@ pub unsafe extern "C" fn pendsv_handler() {
     //    4    R5
     //    0    R4 <- saved PSP when task is not active
     //
-    let prev_psp: u32;
     asm!(
         "mrs     r0, psp
          subs    r0, #32
@@ -240,12 +238,9 @@ pub unsafe extern "C" fn pendsv_handler() {
          mov     r6, r10
          mov     r7, r11
          stmia   r0!, {{r4-r7}}
-         subs    r0, #32",
-        out("r0") prev_psp,
-    );
-    let next_psp = SCHEDULER.context_switch(prev_psp);
-    asm!(
-        "adds    r0, #16
+         subs    r0, #32
+         bl      dust_switch_context
+         adds    r0, #16
          ldmia   r0!, {{r4-r7}}
          mov     r8, r4
          mov     r9, r5
@@ -255,7 +250,6 @@ pub unsafe extern "C" fn pendsv_handler() {
          subs    r0, #32
          ldmia   r0!, {{r4-r7}}
          bx      lr",
-        in("r0") next_psp,
         options(noreturn)
     );
 }
