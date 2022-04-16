@@ -1,6 +1,7 @@
 #![no_std]
-#![feature(asm)]
 #![feature(naked_functions)]
+
+use core::arch::asm;
 
 use dust_cortex_m::EXC_RETURN_USE_PSP;
 use dust_cortex_m::SCB;

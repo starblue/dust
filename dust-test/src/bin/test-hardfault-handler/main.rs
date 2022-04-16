@@ -1,6 +1,7 @@
-#![feature(asm)]
 #![no_std]
 #![no_main]
+
+use core::arch::asm;
 
 // This dependency is needed to pull in the hard-fault handler
 #[allow(unused)]

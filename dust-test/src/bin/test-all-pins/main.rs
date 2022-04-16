@@ -36,10 +36,10 @@
 //  32  PIO0_16  PIO0_16  PIO0_17  PIO0_17
 //  33  VSS      VSS      VSS      VSS
 
-#![feature(asm)]
 #![no_std]
 #![no_main]
 
+use core::arch::asm;
 use core::cmp::min;
 
 use dust::gpio::port::{Clr, Set};

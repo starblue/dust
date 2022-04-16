@@ -7,6 +7,8 @@
 //!
 //! # A4.4.8 Miscellaneous data-processing instructions
 
+use core::arch::asm;
+
 #[cfg(feature = "v7m")]
 #[inline(always)]
 /// Reverse the bit order of a 32-bit value

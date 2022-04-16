@@ -1,6 +1,7 @@
-#![feature(asm)]
 #![no_std]
 #![no_main]
+
+use core::arch::asm;
 
 use dust::gpio::port::DirSet;
 use dust::gpio::port::{Clr, Set};
