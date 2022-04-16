@@ -6,9 +6,9 @@ use core::arch::asm;
 use dust_cortex_m::EXC_RETURN_USE_PSP;
 use dust_cortex_m::SCB;
 
-/// Write a byte to the output device, blocking as necessary.
-///
-/// Implement this function for your system.
+// Write a byte to the output device, blocking as necessary.
+//
+// Implement this function for your system.
 extern "C" {
     fn hard_fault_write_byte(b: u8);
 }
