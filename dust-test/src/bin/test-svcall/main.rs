@@ -1,8 +1,10 @@
 #![feature(naked_functions)]
+#![feature(asm_const)]
 #![no_std]
 #![no_main]
 
 use core::arch::asm;
+
 use dust_cortex_m::scb::SCB_CCR_STKALIGN;
 use dust_cortex_m::EXC_RETURN_USE_PSP;
 use dust_cortex_m::SCB;
