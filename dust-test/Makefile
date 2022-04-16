@@ -87,8 +87,11 @@ $(OUTPUT_DIR)/$(2)_$(1).hex: build_$(2)_$(1)
 endef
 $(foreach B,$(BINARIES),$(foreach D,$($(B)_DEVICES),$(eval $(call b_d_rules,$B,$D))))
 
-flash_%: $(OUTPUT_DIR)/%.hex
-	lpc21isp -control "$(OUTPUT_DIR)/$*".hex /dev/ttyUSB0 115200 12000
+lpc_flash_%: $(OUTPUT_DIR)/%.hex
+	lpc21isp -control "$(OUTPUT_DIR)/$*".hex "$(SERIAL_PORT)" 115200 12000
+
+stm32_flash_%: $(OUTPUT_DIR)/%.hex
+	stm32flash -i -rts,dtr,-dtr,:rts,dtr,-dtr -w "$(OUTPUT_DIR)/$*".hex -v "$(SERIAL_PORT)" -b 115200
 
 clean:
 	$(CARGO) clean
