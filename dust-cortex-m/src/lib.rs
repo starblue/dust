@@ -26,6 +26,6 @@ pub const SYS_TICK: sys_tick::SysTick = sys_tick::SysTick;
 pub const NVIC: *mut nvic::Nvic = 0xE000_E100 as *mut nvic::Nvic;
 pub const SCB: *mut scb::Scb = 0xE000_ED00 as *mut scb::Scb;
 
-unsafe extern "C" fn reset_handler() {
+pub unsafe extern "C" fn reset_handler() {
     crt0();
 }
