@@ -1,5 +1,5 @@
 [package]
-edition = "2018"
+edition = "2021"
 name = "dust-stm32f0"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
@@ -17,11 +17,14 @@ stm32f030x6 = ["stm32f030"]
 stm32f030xb = ["stm32f030"]
 stm32f070x6 = ["stm32f070"]
 stm32f070xb = ["stm32f070"]
+stm32f072x8 = ["stm32f072"]
 
 stm32f030 = ["stm32f0x0"]
 stm32f070 = ["stm32f0x0"]
+stm32f072 = ["stm32f0x2"]
 
 stm32f0x0 = ["stm32f0"]
+stm32f0x2 = ["stm32f0"]
 
 stm32f0 = []
 

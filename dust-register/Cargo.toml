@@ -1,8 +1,8 @@
 [package]
+edition = "2021"
 name = "dust-register"
 version = "0.1.0"
 authors = ["Juergen Stuber <juergen@jstuber.net>"]
-edition = "2018"
 description = "Volatile access to hardware registers based on pointers"
 
 [dependencies]
