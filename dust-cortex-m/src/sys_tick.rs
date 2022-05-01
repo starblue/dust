@@ -21,7 +21,7 @@ impl SysTick {
     }
     /// Calibration value register
     pub const fn calib(&self) -> RO<u32> {
-        RO::at(0xE000_E010)
+        RO::at(0xE000_E01C)
     }
 }
 
@@ -63,19 +63,15 @@ impl SysTick {
 
 #[cfg(test)]
 mod test {
+    use dust_register::Ptr;
+
     use crate::SYS_TICK;
 
     #[test]
     fn test_sys_tick() {
-        let sys_tick = unsafe { &mut *SYS_TICK };
-
-        assert_eq!(address(&sys_tick.csr), 0xE000_E010);
-        assert_eq!(address(&sys_tick.rvr), 0xE000_E014);
-        assert_eq!(address(&sys_tick.cvr), 0xE000_E018);
-        assert_eq!(address(&sys_tick.calib), 0xE000_E01C);
-    }
-
-    fn address<T>(r: *const T) -> usize {
-        r as usize
+        assert_eq!(SYS_TICK.csr().addr(), 0xE000_E010);
+        assert_eq!(SYS_TICK.rvr().addr(), 0xE000_E014);
+        assert_eq!(SYS_TICK.cvr().addr(), 0xE000_E018);
+        assert_eq!(SYS_TICK.calib().addr(), 0xE000_E01C);
     }
 }
