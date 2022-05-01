@@ -39,6 +39,9 @@ pub trait Modify<T: Copy> {
 /// For checking the address and for special ops.
 pub trait Ptr<T> {
     fn ptr(&self) -> *mut T;
+    fn addr(&self) -> usize {
+        self.ptr() as usize
+    }
 }
 
 /// A register that is readable and writable.
