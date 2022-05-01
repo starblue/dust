@@ -6,27 +6,24 @@
 ///! to avoid ever having a reference to the register.
 ///!
 ///! A reference would allow the compiler to add spurious reads,
-///! which together with volatile access would result in undefined behavior.
-///!
-///! TODO Link to relevant discussions
-///! TODO document usage
+///! which might have undesired effects in the hardware.
 use core::marker::PhantomData;
 use core::ptr::read_volatile;
 use core::ptr::write_volatile;
 
-/// Types of registers that can be read.
+/// A trait for registers that can be read.
 pub trait Read<T: Copy> {
     /// Performs a volatile read of the register.
     unsafe fn read(&self) -> T;
 }
 
-/// Types of registers that can be written.
+/// A trait for registers that can be written.
 pub trait Write<T: Copy> {
     /// Performs a volatile write of the register.
     unsafe fn write(&self, value: T);
 }
 
-/// Types of registers that can be modified.
+/// A trait for registers that can be modified.
 pub trait Modify<T: Copy> {
     /// Performs a volatile read-modify-write of the register.
     ///
@@ -37,7 +34,7 @@ pub trait Modify<T: Copy> {
         F: FnOnce(T) -> T;
 }
 
-/// Trait to get a pointer to a register
+/// A trait for getting a pointer to a register
 ///
 /// For checking the address and for special ops.
 pub trait Ptr<T> {
