@@ -166,7 +166,7 @@ where
 
 #[macro_export]
 macro_rules! register {
-    ($name:ident, $type:ty, $doc:literal, $addr:literal) => {
+    ($name:ident, $addr:literal, $type:ty, $doc:literal) => {
         #[doc = $doc]
         pub const fn $name(&self) -> $type {
             <$type>::at($addr)

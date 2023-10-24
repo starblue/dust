@@ -8,10 +8,10 @@ use dust_register::{RO, RW};
 /// Nested Vectored Interrupt Controller
 pub struct SysTick;
 impl SysTick {
-    register!(csr, RW<u32>, "Control and Status Register", 0xE000_E010);
-    register!(rvr, RW<u32>, "Reload Value Register", 0xE000_E014);
-    register!(cvr, RW<u32>, "Current Value Register", 0xE000_E018);
-    register!(calib, RO<u32>, "Calibration value register", 0xE000_E01C);
+    register!(csr, 0xE000_E010, RW<u32>, "Control and Status Register");
+    register!(rvr, 0xE000_E014, RW<u32>, "Reload Value Register");
+    register!(cvr, 0xE000_E018, RW<u32>, "Current Value Register");
+    register!(calib, 0xE000_E01C, RO<u32>, "Calibration value register");
 }
 
 pub const CSR_ENABLE: u32 = 1 << 0;
